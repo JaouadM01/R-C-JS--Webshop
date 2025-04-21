@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Jaoua\\OneDrive\\Documenten\\GitHub\\R-C-JS--Webshop\\Backend\\Backend.csproj": {}
+    "C:\\Users\\Jaoua\\OneDrive\\Documenten\\GitHub\\R-C-JS--Webshop\\backend\\Backend.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Jaoua\\OneDrive\\Documenten\\GitHub\\R-C-JS--Webshop\\Backend\\Backend.csproj": {
+    "C:\\Users\\Jaoua\\OneDrive\\Documenten\\GitHub\\R-C-JS--Webshop\\backend\\Backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Jaoua\\OneDrive\\Documenten\\GitHub\\R-C-JS--Webshop\\Backend\\Backend.csproj",
+        "projectUniqueName": "C:\\Users\\Jaoua\\OneDrive\\Documenten\\GitHub\\R-C-JS--Webshop\\backend\\Backend.csproj",
         "projectName": "Backend",
-        "projectPath": "C:\\Users\\Jaoua\\OneDrive\\Documenten\\GitHub\\R-C-JS--Webshop\\Backend\\Backend.csproj",
+        "projectPath": "C:\\Users\\Jaoua\\OneDrive\\Documenten\\GitHub\\R-C-JS--Webshop\\backend\\Backend.csproj",
         "packagesPath": "C:\\Users\\Jaoua\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Jaoua\\OneDrive\\Documenten\\GitHub\\R-C-JS--Webshop\\Backend\\obj\\",
+        "outputPath": "C:\\Users\\Jaoua\\OneDrive\\Documenten\\GitHub\\R-C-JS--Webshop\\backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Jaoua\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -10,6 +10,9 @@ namespace Backend.AutoMapper
         {
             CreateMap<Product, ProductDto>();
             CreateMap<ProductDto, Product>();
+
+            CreateMap<UserDto, User>();
+            CreateMap<User, UserDto>();
         }
     }
 }

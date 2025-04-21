@@ -2,7 +2,7 @@ namespace Backend.Dtos {
     using Backend.Models;
 
     public class ProductDto {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public required string Name { get; set; }
         public required Types Type { get; set; }
         public required string Description { get; set; }
