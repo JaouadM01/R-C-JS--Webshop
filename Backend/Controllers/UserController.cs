@@ -34,5 +34,20 @@ namespace Backend.Controllers {
                 return StatusCode(500, $"Backend Server Error: {ex.Message}");
             }
         }
+
+        [HttpPut]
+        public async Task<ActionResult> UpdateUser(Guid id, [FromBody] UserDto userDto)
+        {
+            try{
+                var updatedUser = await _service.Update(id, userDto);
+                if(updatedUser == null) return NotFound();
+
+                return Ok(updatedUser);
+            }
+            catch(Exception ex){
+                return StatusCode(500, $"Backend Server Error: {ex.Message}");
+
+            }
+        }
     }
 }

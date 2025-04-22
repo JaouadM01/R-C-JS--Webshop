@@ -9,16 +9,35 @@ namespace Backend.Data
             // Prevent duplicate seeding
             if (context.Users.Any() || context.Products.Any()) return;
 
-            // Create a user
-            var user = new User
+            // Create users with different roles
+            var backendEmployee = new User
+            {
+                Id = Guid.NewGuid(),
+                Name = "Bob",
+                Email = "bob@backend.com",
+                Password = "securepassword123",
+                Role = UserRole.BackendEmployee
+            };
+
+            var productSeller = new User
             {
                 Id = Guid.NewGuid(),
                 Name = "Alice",
                 Email = "alice@example.com",
-                Password = "securepassword123"
+                Password = "securepassword123",
+                Role = UserRole.ProductSeller
             };
 
-            // Create products linked to that user
+            var customer = new User
+            {
+                Id = Guid.NewGuid(),
+                Name = "Charlie",
+                Email = "charlie@customer.com",
+                Password = "securepassword123",
+                Role = UserRole.Customer
+            };
+
+            // Create products linked to the ProductSeller
             var products = new List<Product>
             {
                 new Product
@@ -27,7 +46,7 @@ namespace Backend.Data
                     Type = Types.Electronics,
                     Description = "Portable computer",
                     Price = 999.99,
-                    UserId = user.Id
+                    UserId = productSeller.Id
                 },
                 new Product
                 {
@@ -35,7 +54,7 @@ namespace Backend.Data
                     Type = Types.Books,
                     Description = "For writing notes",
                     Price = 5.49,
-                    UserId = user.Id
+                    UserId = productSeller.Id
                 },
                 new Product
                 {
@@ -43,12 +62,12 @@ namespace Backend.Data
                     Type = Types.Groceries,
                     Description = "Keeps drinks cold",
                     Price = 19.99,
-                    UserId = user.Id
+                    UserId = productSeller.Id
                 }
             };
 
-            // Add user and products
-            context.Users.Add(user);
+            // Add users and products to the context
+            context.Users.AddRange(backendEmployee, productSeller, customer);
             context.Products.AddRange(products);
 
             context.SaveChanges();

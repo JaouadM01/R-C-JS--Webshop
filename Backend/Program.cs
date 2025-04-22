@@ -2,7 +2,9 @@ using Backend.Data;
 using Microsoft.EntityFrameworkCore;
 using Backend.AutoMapper;
 using Backend.Repositories; 
-using Backend.Services;     
+using Backend.Services;
+using Microsoft.AspNetCore.Identity;
+using Backend.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +18,8 @@ builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService,UserService>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+
 
 
 builder.Services.AddControllers();
