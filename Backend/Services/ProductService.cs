@@ -10,6 +10,9 @@ namespace Backend.Services
     {
         Task<IEnumerable<ProductDto>> GetAllAsync();
         Task<Product> Create (ProductDto productDto, Guid userId);
+        Task<ProductDto> Update(Guid id, ProductDto product);
+        Task<bool> Delete(Guid id);
+        Task<ProductDto?> GetById(Guid id);
     }
 
     public class ProductService : IProductService
@@ -36,5 +39,38 @@ namespace Backend.Services
             await _repo.Create(product);
             return product;
         }
+        public async Task<ProductDto> Update(Guid id, ProductDto product)
+        {
+            var existingProduct = await _repo.GetByIdAsync(id);
+            if(existingProduct == null) 
+                throw new KeyNotFoundException($"Product with ID {product.Id}:{id} not found.");
+            
+            // Update the existing product
+            existingProduct.Name = product.Name;
+            existingProduct.Description = product.Description;
+            existingProduct.Type = product.Type;
+            existingProduct.Price = product.Price;
+
+            await _repo.Update(existingProduct);
+
+            return _mapper.Map<ProductDto>(existingProduct);
+        }
+
+        public async Task<bool> Delete(Guid id)
+        {
+            var existingProduct = await _repo.GetByIdAsync(id);
+            if(existingProduct == null) return false;
+
+            await _repo.Delete(existingProduct);
+            return true;
+        }
+
+        public async Task<ProductDto?> GetById(Guid id){
+            var product = await _repo.GetByIdAsync(id);
+            if(product == null) return null;
+
+            return _mapper.Map<ProductDto>(product);
+        }
+        
     }
 }

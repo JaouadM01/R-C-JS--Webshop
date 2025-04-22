@@ -159,3 +159,4 @@ C:\Users\Jaoua\OneDrive\Documenten\GitHub\R-C-JS--Webshop\Backend\obj\Debug\net8
 C:\Users\Jaoua\OneDrive\Documenten\GitHub\R-C-JS--Webshop\Backend\obj\Debug\net8.0\ref\Backend.dll
 C:\Users\Jaoua\OneDrive\Documenten\GitHub\R-C-JS--Webshop\Backend\bin\Debug\net8.0\AutoMapper.dll
 C:\Users\Jaoua\OneDrive\Documenten\GitHub\R-C-JS--Webshop\Backend\bin\Debug\net8.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\Jaoua\OneDrive\Documenten\GitHub\R-C-JS--Webshop\backend\obj\Debug\net8.0\Backend.sourcelink.json
