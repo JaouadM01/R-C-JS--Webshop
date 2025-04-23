@@ -13,13 +13,6 @@ namespace Backend.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            // 🔽 Add this:
-            modelBuilder.Entity<User>()
-                .HasMany(u => u.Listings)
-                .WithOne(p => p.User)
-                .HasForeignKey(p => p.UserId)
-                .OnDelete(DeleteBehavior.Cascade); // optional
         }
     }
 }

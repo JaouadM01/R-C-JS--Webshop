@@ -2,6 +2,7 @@ using Backend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Backend.Services;
 using Backend.Dtos;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Backend.Controllers
 {
@@ -15,7 +16,7 @@ namespace Backend.Controllers
         {
             _service = service;
         }
-
+        [Authorize(Roles = "BackendEmployee")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductDto>>> GetAll()
         {
@@ -26,7 +27,7 @@ namespace Backend.Controllers
             }
             return Ok(products);
         }
-
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(ProductDto productDto, Guid userId)
         {
@@ -41,7 +42,7 @@ namespace Backend.Controllers
                 return StatusCode(500, "An error occurred while creating the product.");
             }
         }
-
+        [Authorize]
         [HttpPut]
         public async Task<ActionResult> Update(Guid id, [FromBody] ProductDto product)
         {
@@ -61,7 +62,7 @@ namespace Backend.Controllers
                 return StatusCode(500, "An error occured while updating the product");
             }
         }
-
+        [Authorize]
         [HttpDelete]
         public async Task<IActionResult> Delete(Guid productId)
         {
@@ -76,7 +77,7 @@ namespace Backend.Controllers
                 return StatusCode(500, "An error occurred while deleting the product.");
             }
         }
-
+        [Authorize]
         [HttpGet("{id:guid}")]
         public async Task<ActionResult<ProductDto>> GetById(Guid id)
         {
@@ -90,6 +91,20 @@ namespace Backend.Controllers
             catch(Exception ex){
                 Console.WriteLine($"Failed to retrieve the product: {ex}");
                 return StatusCode(500, "An error occurred while retrieving the product");
+            }
+        }
+        [Authorize]
+        [HttpGet("GetProductList{id:guid}")]
+        public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductListById(Guid id)
+        {
+            try {
+                var products = await _service.GetProductListById(id);
+                if(products == null) return NotFound();
+                return Ok(products);
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, $"An error occured while retrieving the product list: {ex.Message}");
             }
         }
     }

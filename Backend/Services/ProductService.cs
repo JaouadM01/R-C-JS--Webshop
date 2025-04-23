@@ -13,6 +13,7 @@ namespace Backend.Services
         Task<ProductDto> Update(Guid id, ProductDto product);
         Task<bool> Delete(Guid id);
         Task<ProductDto?> GetById(Guid id);
+        Task<IEnumerable<ProductDto>> GetProductListById(Guid id);
     }
 
     public class ProductService : IProductService
@@ -70,6 +71,14 @@ namespace Backend.Services
             if(product == null) return null;
 
             return _mapper.Map<ProductDto>(product);
+        }
+
+        public async Task<IEnumerable<ProductDto>> GetProductListById(Guid id)
+        {
+            var products = await _repo.GetProductListById(id);
+            if(products == null) return Enumerable.Empty<ProductDto>();
+
+            return _mapper.Map<IEnumerable<ProductDto>>(products);
         }
         
     }

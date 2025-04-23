@@ -1,53 +1,133 @@
 using Microsoft.AspNetCore.Mvc;
 using Backend.Services;
 using Backend.Dtos;
+using Microsoft.AspNetCore.Authorization;
 
-namespace Backend.Controllers {
+namespace Backend.Controllers
+{
     [ApiController]
     [Route("api/[controller]")]
-    public class UserController : ControllerBase {
+    public class UserController : ControllerBase
+    {
         private readonly UserService _service;
 
-        public UserController(UserService service) {
+        public UserController(UserService service)
+        {
             _service = service;
         }
 
+        [Authorize(Roles = "BackendEmployee")]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserDto>>> GetAll(){
+        public async Task<ActionResult<IEnumerable<UserDto>>> GetAll()
+        {
             var users = await _service.GetAllAsync();
-            if(users == null || !users.Any()){
+            if (users == null || !users.Any())
+            {
                 return NoContent();
             }
             return Ok(users);
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateUser([FromBody] UserDto userDto){
-            if(!ModelState.IsValid) return BadRequest(ModelState);
-            try {
+        public async Task<ActionResult> CreateUser([FromBody] UserDto userDto)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            try
+            {
                 var createdUser = await _service.Create(userDto);
-                if (createdUser == null)  return StatusCode(500, "An error occurred while creating the user."); 
+                if (createdUser == null) return StatusCode(500, "An error occurred while creating the user.");
 
                 return CreatedAtAction(nameof(GetAll), new { id = createdUser.Id }, createdUser);
             }
-            catch(Exception ex){
+            catch (Exception ex)
+            {
                 return StatusCode(500, $"Backend Server Error: {ex.Message}");
             }
         }
 
+        [Authorize]
         [HttpPut]
         public async Task<ActionResult> UpdateUser(Guid id, [FromBody] UserDto userDto)
         {
-            try{
+            try
+            {
                 var updatedUser = await _service.Update(id, userDto);
-                if(updatedUser == null) return NotFound();
+                if (updatedUser == null) return NotFound();
 
                 return Ok(updatedUser);
             }
-            catch(Exception ex){
+            catch (Exception ex)
+            {
                 return StatusCode(500, $"Backend Server Error: {ex.Message}");
 
             }
         }
+
+        [HttpPost("Login")]
+        public async Task<ActionResult<string>> Login([FromBody] LoginDto loginDto)
+        {
+            try
+            {
+                var token = await _service.Login(loginDto.Email, loginDto.Password);
+                if (token == null) return Unauthorized("Invalid Credentials");
+                return Ok(new { Token = token });
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Backend Server Error: {ex.Message}");
+            }
+        }
+
+        [Authorize]
+        [HttpDelete]
+        public async Task<ActionResult> Delete(Guid id)
+        {
+            try
+            {
+                var result = await _service.Delete(id);
+                if (result == false) return BadRequest("Failed to delete account");
+                return Ok("Account has been succesfully deleted");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Backend Server Error: {ex.Message}");
+            }
+        }
+
+        [Authorize]
+        [HttpGet("{id:guid}")]
+        public async Task<ActionResult> GetById(Guid id)
+        {
+            try
+            {
+                var existingUser = await _service.GetById(id);
+                if (existingUser == null) return NotFound();
+                return Ok(existingUser);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Backend Server Error: {ex.Message}");
+            }
+        }
+
+        [HttpPut("Favourite")]
+        public async Task<ActionResult> Favourite(Guid productId, Guid userId)
+        {
+            try
+            {
+                var result = await _service.Favourite(productId, userId);
+                if (result == false)
+                {
+                    return BadRequest("Product already in favourites or user not found.");
+                }
+                return Ok("Product added to favourites.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Backend Server Error: {ex.Message}");
+            }
+        }
+
     }
 }

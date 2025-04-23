@@ -10,6 +10,9 @@ namespace Backend.Repositories
         Task<User?> Create(User user);
         Task Update(User user);
         Task<User?> GetByIdAsync(Guid id);
+        Task<User?> GetByEmailAsync(string email);
+        Task Delete(User user);
+        Task<User?> GetById(Guid id);
     }
 
     public class UserRepository : IUserRepository
@@ -57,8 +60,37 @@ namespace Backend.Repositories
         public async Task<User?> GetByIdAsync(Guid id)
         {
             return await _context.Users
-                .Include(u => u.Listings) // <-- Zorg dat Listings meegehaald worden!
                 .FirstOrDefaultAsync(u => u.Id == id);
+        }
+
+        public async Task<User?> GetByEmailAsync(string email)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.Email.ToLower() == email.ToLower());
+        }
+
+        public async Task Delete(User user)
+        {
+            try {
+                _context.Users.Remove(user);
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                // Optional: log the exception
+                throw;
+            }
+        }
+
+        public async Task<User?> GetById(Guid id)
+        {
+            try {
+                var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+                if(existingUser == null) return null;
+                return existingUser;
+            }
+            catch{
+                throw;
+            }
         }
     }
 

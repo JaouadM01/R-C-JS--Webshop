@@ -11,6 +11,7 @@ namespace Backend.Repositories
         Task Update(Product product);
         Task<Product?> GetByIdAsync(Guid id);
         Task Delete(Product product);
+        Task<IEnumerable<Product>> GetProductListById(Guid id);
     }
 
     public class ProductRepository : IProductRepository
@@ -75,6 +76,16 @@ namespace Backend.Repositories
             }
             catch(Exception ex){
                 Console.WriteLine($"Error occured while deleting product: {ex}");
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<Product>> GetProductListById(Guid id){
+            try {
+                return await _context.Products.Where(p => p.UserId == id).ToListAsync();
+            }
+            catch
+            {
                 throw;
             }
         }

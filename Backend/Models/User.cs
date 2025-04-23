@@ -1,3 +1,5 @@
+using Backend.Dtos;
+
 namespace Backend.Models
 {
     public class User {
@@ -5,7 +7,7 @@ namespace Backend.Models
         public required string Name{get; set;}
         public required string Email {get; set;}
         public required string Password{get; set;}
-        public List<Product>? Listings { get; set; }
+        public List<Product>? Favourites{get; set;}
         public UserRole Role {get; set;}
     }
 
