@@ -108,39 +108,55 @@ namespace Backend.Services
         }
 
         public async Task<bool> Favourite(Guid productId, Guid userId)
-        {
-            // Get the ProductDto directly from the product service
-            var product = await _productservice.GetById(productId);
+{
+    // Get the existing user from the repository
+    var existingUser = await _repo.GetByIdAsync(userId);
 
-            // If the product doesn't exist, return false
-            if (product == null) return false;
+    // If the user doesn't exist, return false
+    if (existingUser == null) return false;
 
-            // Get the existing user from the repository
-            var existingUser = await _repo.GetByIdAsync(userId);
+    // If the user doesn't have any favourites yet, initialize an empty list
+    if (existingUser.Favourites == null)
+    {
+        existingUser.Favourites = new List<Guid>();
+    }
 
-            // If the user doesn't exist, return false
-            if (existingUser == null) return false;
+    // Check if the product is already in the user's favourites
+    if (existingUser.Favourites.Contains(productId))
+    {
+        return false;  // The product is already in the favourites list
+    }
 
-            // If the user doesn't have any favourites yet, initialize an empty list
-            if (existingUser.Favourites == null)
-            {
-                existingUser.Favourites = new List<Product>();
-            }
+    // Add the product to the user's favourites list
+    existingUser.Favourites.Add(productId);
 
-            // Check if the product is already in the user's favourites
-            if (existingUser.Favourites.Any(p => p.Id == product.Id))
-            {
-                return false;  // The product is already in the favourites list
-            }
+    // Update the user in the repository
+    await _repo.Update(existingUser);
 
-            // Add the product to the user's favourites list
-            existingUser.Favourites.Add(_mapper.Map<Product>(product));
+    return true;  // Return true to indicate that the product was successfully added
+}
 
-            // Update the user in the repository
-            await _repo.Update(existingUser);
+    public async Task<bool> UnFavourite(Guid productId, Guid userId)
+{
+    // Get the existing user
+    var existingUser = await _repo.GetByIdAsync(userId);
+    if (existingUser == null) return false;
 
-            return true;  // Return true to indicate that the product was successfully added
-        }
+    // If the user doesn't have any favourites yet, return false
+    if (existingUser.Favourites == null || !existingUser.Favourites.Contains(productId))
+    {
+        return false;  // Product not in favourites
+    }
+
+    // Remove the product from the favourites list
+    existingUser.Favourites.Remove(productId);
+
+    // Update the user in the repository
+    await _repo.Update(existingUser);
+
+    return true;  // Successfully removed from favourites
+}
+
 
 
     }

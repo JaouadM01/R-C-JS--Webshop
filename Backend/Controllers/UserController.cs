@@ -112,22 +112,29 @@ namespace Backend.Controllers
         }
 
         [HttpPut("Favourite")]
-        public async Task<ActionResult> Favourite(Guid productId, Guid userId)
+public async Task<ActionResult> Favourite(Guid productId, Guid userId)
+{
+    try
+    {
+        var result = await _service.Favourite(productId, userId);
+        if (result == false)
         {
-            try
+            // If the product is already in the favourites list, remove it
+            var unfavourited = await _service.UnFavourite(productId, userId);
+            if (unfavourited)
             {
-                var result = await _service.Favourite(productId, userId);
-                if (result == false)
-                {
-                    return BadRequest("Product already in favourites or user not found.");
-                }
-                return Ok("Product added to favourites.");
+                return Ok("Product removed from favourites.");
             }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Backend Server Error: {ex.Message}");
-            }
+            return BadRequest("Failed to remove product from favourites.");
         }
+        return Ok("Product added to favourites.");
+    }
+    catch (Exception ex)
+    {
+        return StatusCode(500, $"Backend Server Error: {ex.Message}");
+    }
+}
+
 
     }
 }
