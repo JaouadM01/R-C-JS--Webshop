@@ -1,8 +1,11 @@
-namespace Backend.Models {
-    public class Receipt {
-        public required Guid Id{get; set;}
-        public required Guid UserId{get; set;}
-        public required List<Guid> Purchases{get; set;}
-        public decimal TotalAmount{get; set;}
+namespace Backend.Models
+{
+    public class Receipt
+    {
+        public Guid Id { get; set; }
+        public Guid UserId { get; set; }  // User who made the purchase
+        public DateTime CreatedAt { get; set; }  // Time of purchase
+        public decimal TotalAmount { get; set; }  // Total amount of the receipt
+        public List<ReceiptProduct> ReceiptProducts { get; set; }  // List of products in the receipt
     }
 }

@@ -13,6 +13,12 @@ namespace Backend.AutoMapper
 
             CreateMap<UserDto, User>();
             CreateMap<User, UserDto>();
+
+            // Map Receipt to ReceiptDto
+            CreateMap<Receipt, ReceiptDto>()
+                .ForMember(dest => dest.ReceiptProducts, opt => opt.MapFrom(src => src.ReceiptProducts));
+            // Map ReceiptProduct to ReceiptProductDto
+            CreateMap<ReceiptProduct, ReceiptProductDto>();
         }
     }
 }
