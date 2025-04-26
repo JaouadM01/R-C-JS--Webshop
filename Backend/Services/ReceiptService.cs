@@ -2,13 +2,17 @@ using Backend.Models;
 using Backend.Dtos;
 using AutoMapper;
 using Backend.Repositories;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 
 namespace Backend.Services
 {
     public interface IReceiptService
     {
-        Task<ReceiptDto> CreateReceipt(Guid UserId , List<ReceiptProductRequest> products);
+        Task<ReceiptDto?> CreateReceipt(Guid UserId, List<ReceiptProductRequest> products);
+        Task<IEnumerable<ReceiptDto?>> GetAllAsync();
+        Task Delete(Guid id);
+        Task<ReceiptDto?> Update(Guid id, ReceiptDto receiptDto);
     }
 
     public class ReceiptService : IReceiptService
@@ -24,11 +28,13 @@ namespace Backend.Services
             _mapper = mapper;
         }
 
-        public async Task<ReceiptDto> CreateReceipt(Guid UserId , List<ReceiptProductRequest> products)
+        public async Task<ReceiptDto?> CreateReceipt(Guid UserId, List<ReceiptProductRequest> products)
         {
-            if(products == null) return null;
+            if (products == null)
+                throw new ArgumentNullException(nameof(products), "Products list cannot be null.");
 
-            var Receipt = new Receipt {
+            var Receipt = new Receipt
+            {
                 Id = Guid.NewGuid(),
                 UserId = UserId,
                 CreatedAt = DateTime.UtcNow,
@@ -36,15 +42,16 @@ namespace Backend.Services
             };
 
             var receiptProducts = new List<ReceiptProduct>();
-            foreach(var product in products)
+            foreach (var product in products)
             {
                 var existingProduct = await _productRepository.GetByIdAsync(product.ProductId);
-                if(existingProduct == null) continue;
+                if (existingProduct == null) continue;
 
                 var amount = product.Quantity * existingProduct.Price;
                 Receipt.TotalAmount += amount;
 
-                receiptProducts.Add( new ReceiptProduct {
+                receiptProducts.Add(new ReceiptProduct
+                {
                     Id = Guid.NewGuid(),
                     ReceiptId = Receipt.Id,
                     ProductId = product.ProductId,
@@ -62,6 +69,38 @@ namespace Backend.Services
             }
 
             return null;
+        }
+        public async Task<IEnumerable<ReceiptDto?>> GetAllAsync()
+        {
+            var receipts = await _receiptRepository.GetAllAsync();
+            if (receipts == null) return Enumerable.Empty<ReceiptDto>();
+            return _mapper.Map<IEnumerable<ReceiptDto>>(receipts);
+        }
+
+        public async Task Delete(Guid id)
+        {
+            var receipt = await _receiptRepository.GetByIdAsync(id);
+            if (receipt == null)
+            {
+                throw new InvalidOperationException($"Receipt with ID {id} not found.");
+            }
+
+            await _receiptRepository.Delete(id);
+        }
+
+        public async Task<ReceiptDto?> Update(Guid id, ReceiptDto receiptDto)
+        {
+            var existingReceipt = await _receiptRepository.GetByIdAsync(id);
+            if (existingReceipt == null) return null;
+
+            existingReceipt.Id = receiptDto.Id;
+            existingReceipt.UserId = receiptDto.UserId;
+            existingReceipt.ReceiptProducts = _mapper.Map<List<ReceiptProduct>>(receiptDto.ReceiptProducts);
+            existingReceipt.TotalAmount = receiptDto.TotalAmount;
+
+            await _receiptRepository.Update(existingReceipt);
+
+            return _mapper.Map<ReceiptDto>(existingReceipt);
         }
     }
 }

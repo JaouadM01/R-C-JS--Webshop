@@ -25,6 +25,9 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 
+builder.Services.AddScoped<IReceiptService, ReceiptService>();
+builder.Services.AddScoped<IReceiptRepository, ReceiptRepository>();
+builder.Services.AddScoped<ReceiptService>();
 
 
 builder.Services.AddControllers();

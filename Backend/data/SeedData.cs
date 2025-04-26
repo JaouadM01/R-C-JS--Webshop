@@ -45,7 +45,7 @@ namespace Backend.Data
                     Name = "Laptop",
                     Type = Types.Electronics,
                     Description = "Portable computer",
-                    Price = 999.99,
+                    Price = 999.99M,
                     UserId = productSeller.Id
                 },
                 new Product
@@ -53,7 +53,7 @@ namespace Backend.Data
                     Name = "Notebook",
                     Type = Types.Books,
                     Description = "For writing notes",
-                    Price = 5.49,
+                    Price = 5.49M,
                     UserId = productSeller.Id
                 },
                 new Product
@@ -61,7 +61,7 @@ namespace Backend.Data
                     Name = "Water Bottle",
                     Type = Types.Groceries,
                     Description = "Keeps drinks cold",
-                    Price = 19.99,
+                    Price = 19.99M,
                     UserId = productSeller.Id
                 }
             };

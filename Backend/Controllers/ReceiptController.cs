@@ -17,7 +17,7 @@ namespace Backend.Controllers
         }
 
         [HttpPost("CreateReceipt")]
-        public async Task<ActionResult<ReceiptDto>> CreateReceipt(Guid UserId ,[FromBody] List<ReceiptProductRequest> products)
+        public async Task<ActionResult<ReceiptDto>> CreateReceipt(Guid UserId, [FromBody] List<ReceiptProductRequest> products)
         {
             try
             {
@@ -31,6 +31,50 @@ namespace Backend.Controllers
             }
             catch (Exception ex)
             {
+                return StatusCode(500, $"Backend Server Error: {ex.Message}");
+            }
+        }
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ReceiptDto>>> GetAllAsync()
+        {
+            try
+            {
+                var receipts = await _service.GetAllAsync();
+                if (receipts == null) return BadRequest();
+                return Ok(receipts);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Backend Server Error: {ex.Message}");
+            }
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult> Delete(Guid id)
+        {
+            try
+            {
+                await _service.Delete(id);
+                return Ok();
+            }
+            catch(InvalidOperationException ex){
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Backend Server Error: {ex.Message}");
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Update(Guid id, [FromBody] ReceiptDto receiptDto)
+        {
+            try {
+                var receipt = await _service.Update(id, receiptDto);
+                if(receipt == null) return BadRequest();
+                return Ok(receipt);
+            }
+            catch(Exception ex){
                 return StatusCode(500, $"Backend Server Error: {ex.Message}");
             }
         }
