@@ -93,43 +93,50 @@ namespace Backend.Services
             var existingReceipt = await _receiptRepository.GetByIdAsync(id);
             if (existingReceipt == null) return null;
 
-            List<Guid> listofrpneededtobedeleted = new List<Guid>();
+            // change userid if it is changed in the new receipt
+            if (existingReceipt.UserId != receiptDto.UserId) existingReceipt.UserId = receiptDto.UserId;
 
-            existingReceipt.Id = receiptDto.Id;
-            existingReceipt.UserId = receiptDto.UserId;
-            existingReceipt.TotalAmount = receiptDto.TotalAmount;
-
-            // stap 1: verwijder oudere producten die niet meer in de lijst staan
-            var productIdsExisting = existingReceipt.ReceiptProducts.Select(r => r.Id).ToList();
-            var newReceiptProducts = _mapper.Map<List<ReceiptProduct>>(receiptDto.ReceiptProducts);
-            var productsToRemove = existingReceipt.ReceiptProducts.Where(rp => !newReceiptProducts.Any(nrp => nrp.Id == rp.Id)).ToList();
-            foreach (var rp in productsToRemove)
+            // Ensure ReceiptProducts are not null
+            if (existingReceipt.ReceiptProducts != null && receiptDto.ReceiptProducts != null)
             {
-                await _receiptRepository.RemoveRP(rp.ProductId);
+                // Identify products to remove
+                var productsNeededToRemove = existingReceipt.ReceiptProducts
+                    .Where(rp => !receiptDto.ReceiptProducts.Any(rpDto => rpDto.ProductId == rp.ProductId))
+                    .ToList(); // Use ToList to avoid modifying the collection during iteration
+
+                // Remove the identified products
+                foreach (var product in productsNeededToRemove)
+                {
+                    existingReceipt.ReceiptProducts.Remove(product);
+                }
             }
 
-            // stap 2: toevoegen van nieuwe producten
-            foreach (var newProduct in newReceiptProducts)
+            // Add or update products
+            foreach(var updatedProduct in receiptDto.ReceiptProducts)
             {
-                var ProductNeededUpdate = existingReceipt.ReceiptProducts.FirstOrDefault(rp => rp.Id == newProduct.Id);
-                if(ProductNeededUpdate != null)
+                var existingProduct = existingReceipt.ReceiptProducts?.FirstOrDefault(rp => rp.Id == updatedProduct.Id);
+                
+                if(existingProduct != null)
                 {
-                    ProductNeededUpdate.Quantity = newProduct.Quantity;
-                    ProductNeededUpdate.Price = newProduct.Price;
-                    listofrpneededtobedeleted.Add(ProductNeededUpdate.Id);
+                    existingProduct.Quantity = updatedProduct.Quantity;
+                    existingProduct.Price = updatedProduct.Price;
                 }
                 else
                 {
-                    newProduct.ReceiptId = existingReceipt.Id;
+                    var newProduct = new ReceiptProduct {
+                        Id = Guid.NewGuid(),
+                        ProductId = updatedProduct.ProductId,
+                        Quantity = updatedProduct.Quantity,
+                        Price = updatedProduct.Price,
+                        ReceiptId = id
+                    };
                     existingReceipt.ReceiptProducts.Add(newProduct);
                 }
-            }
-            // stap 3: updaten en terug sturen van een dto
 
-            // delete de bijgewerkte ReceiptProduct
-            foreach(Guid receiptProductId in listofrpneededtobedeleted){
-                await _receiptRepository.Remove(receiptProductId);
             }
+
+            // calculating total amount
+            existingReceipt.TotalAmount = existingReceipt.ReceiptProducts.Sum(rp => rp.Quantity * rp.Price);
 
             await _receiptRepository.Update(existingReceipt);
 
