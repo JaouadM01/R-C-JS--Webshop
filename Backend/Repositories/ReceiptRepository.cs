@@ -12,6 +12,8 @@ namespace Backend.Repositories
         Task Delete(Guid id);
         Task<Receipt?> GetByIdAsync(Guid id);
         Task Update(Receipt receipt);
+        Task RemoveRP(Guid id);
+        Task Remove(Guid id);
     }
 
     public class ReceiptRepository : IReceiptRepository
@@ -96,6 +98,35 @@ namespace Backend.Repositories
                 await _context.SaveChangesAsync();
             }
             catch{
+                throw;
+            }
+        }
+
+        public async Task RemoveRP(Guid id)
+        {
+            try {
+                var rp = await _context.ReceiptProducts.FirstOrDefaultAsync(r => r.ProductId == id);
+                if (rp != null)
+                {
+                    _context.ReceiptProducts.Remove(rp);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch {
+                throw;
+            }
+        }
+        public async Task Remove(Guid id)
+        {
+            try {
+                var rp = await _context.ReceiptProducts.FirstOrDefaultAsync(r => r.Id == id);
+                if (rp != null)
+                {
+                    _context.ReceiptProducts.Remove(rp);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch {
                 throw;
             }
         }

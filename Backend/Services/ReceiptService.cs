@@ -93,10 +93,43 @@ namespace Backend.Services
             var existingReceipt = await _receiptRepository.GetByIdAsync(id);
             if (existingReceipt == null) return null;
 
+            List<Guid> listofrpneededtobedeleted = new List<Guid>();
+
             existingReceipt.Id = receiptDto.Id;
             existingReceipt.UserId = receiptDto.UserId;
-            existingReceipt.ReceiptProducts = _mapper.Map<List<ReceiptProduct>>(receiptDto.ReceiptProducts);
             existingReceipt.TotalAmount = receiptDto.TotalAmount;
+
+            // stap 1: verwijder oudere producten die niet meer in de lijst staan
+            var productIdsExisting = existingReceipt.ReceiptProducts.Select(r => r.Id).ToList();
+            var newReceiptProducts = _mapper.Map<List<ReceiptProduct>>(receiptDto.ReceiptProducts);
+            var productsToRemove = existingReceipt.ReceiptProducts.Where(rp => !newReceiptProducts.Any(nrp => nrp.Id == rp.Id)).ToList();
+            foreach (var rp in productsToRemove)
+            {
+                await _receiptRepository.RemoveRP(rp.ProductId);
+            }
+
+            // stap 2: toevoegen van nieuwe producten
+            foreach (var newProduct in newReceiptProducts)
+            {
+                var ProductNeededUpdate = existingReceipt.ReceiptProducts.FirstOrDefault(rp => rp.Id == newProduct.Id);
+                if(ProductNeededUpdate != null)
+                {
+                    ProductNeededUpdate.Quantity = newProduct.Quantity;
+                    ProductNeededUpdate.Price = newProduct.Price;
+                    listofrpneededtobedeleted.Add(ProductNeededUpdate.Id);
+                }
+                else
+                {
+                    newProduct.ReceiptId = existingReceipt.Id;
+                    existingReceipt.ReceiptProducts.Add(newProduct);
+                }
+            }
+            // stap 3: updaten en terug sturen van een dto
+
+            // delete de bijgewerkte ReceiptProduct
+            foreach(Guid receiptProductId in listofrpneededtobedeleted){
+                await _receiptRepository.Remove(receiptProductId);
+            }
 
             await _receiptRepository.Update(existingReceipt);
 

@@ -66,7 +66,7 @@ namespace Backend.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPut]
         public async Task<ActionResult> Update(Guid id, [FromBody] ReceiptDto receiptDto)
         {
             try {

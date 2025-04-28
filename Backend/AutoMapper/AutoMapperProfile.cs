@@ -19,6 +19,8 @@ namespace Backend.AutoMapper
                 .ForMember(dest => dest.ReceiptProducts, opt => opt.MapFrom(src => src.ReceiptProducts));
             // Map ReceiptProduct to ReceiptProductDto
             CreateMap<ReceiptProduct, ReceiptProductDto>();
+            CreateMap<ReceiptProductDto, ReceiptProduct>();
+            
         }
     }
 }
