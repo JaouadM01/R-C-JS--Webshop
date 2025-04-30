@@ -13,6 +13,7 @@ namespace Backend.Services
         Task<IEnumerable<ReceiptDto?>> GetAllAsync();
         Task Delete(Guid id);
         Task<ReceiptDto?> Update(Guid id, ReceiptDto receiptDto);
+        Task<ReceiptDto?> GetByIdAsync(Guid id);
     }
 
     public class ReceiptService : IReceiptService
@@ -26,6 +27,13 @@ namespace Backend.Services
             _productRepository = productRepository;
             _receiptRepository = receiptRepository;
             _mapper = mapper;
+        }
+
+        public async Task<ReceiptDto?> GetByIdAsync(Guid id)
+        {
+            var receipt = await _receiptRepository.GetByIdAsync(id);
+            if(receipt == null) return null;
+            return _mapper.Map<ReceiptDto>(receipt);
         }
 
         public async Task<ReceiptDto?> CreateReceipt(Guid UserId, List<ReceiptProductRequest> products)

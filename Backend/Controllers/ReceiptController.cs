@@ -48,6 +48,20 @@ namespace Backend.Controllers
                 return StatusCode(500, $"Backend Server Error: {ex.Message}");
             }
         }
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ReceiptDto>>> GetByIdAsync(Guid id)
+        {
+            try
+            {
+                var receipts = await _service.GetByIdAsync(id);
+                if (receipts == null) return BadRequest();
+                return Ok(receipts);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Backend Server Error: {ex.Message}");
+            }
+        }
 
         [HttpDelete]
         public async Task<ActionResult> Delete(Guid id)
