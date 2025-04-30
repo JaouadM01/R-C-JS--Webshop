@@ -1,0 +1,133 @@
+/* Global reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f8f8f8;  /* Soft background color */
+  color: #333;
+  line-height: 1.6;
+  padding: 20px;
+}
+
+/* Container for the entire product details page */
+.product-details-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Wrapper for the product details */
+.product-details-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  margin-top: 20px;
+}
+
+/* Main Product Details */
+.product-details {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+/* Left: Product Image */
+.product-image-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.product-image {
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Right: Product Info */
+.product-info-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+.product-name {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.product-description {
+  font-size: 1rem;
+  color: #666;
+}
+
+.product-price {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #27ae60;
+}
+
+/* Button Styling */
+.add-to-cart-button {
+  padding: 12px 24px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-to-cart-button:hover {
+  background-color: #2980b9;
+}
+
+/* Error message when product is not found */
+.error-message {
+  font-size: 1.5rem;
+  color: #e74c3c;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .product-details {
+    flex-direction: column;
+  }
+
+  .product-image {
+    max-width: 80%;
+    margin-bottom: 20px;
+  }
+
+  .product-info-container {
+    align-items: center;
+  }
+
+  .product-name {
+    font-size: 1.8rem;
+  }
+
+  .product-price {
+    font-size: 1.3rem;
+  }
+
+  .add-to-cart-button {
+    width: 100%;
+  }
+}

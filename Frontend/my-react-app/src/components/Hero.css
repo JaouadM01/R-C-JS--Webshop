@@ -1,0 +1,130 @@
+/* General styles for the Hero Section */
+.hero-container {
+  position: relative;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(200, 200, 200, 0.7)); /* Subtle light gradient */
+  color: #333; /* Dark gray for readability */
+  font-family: 'Lato', sans-serif; /* Elegant, modern font */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+  padding: 20px;
+}
+
+/* Background Blurring */
+.background-blur,
+.background-blur2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(200, 200, 200, 0.2), rgba(255, 255, 255, 0.2)); /* Light gray overlay */
+  filter: blur(80px);
+  z-index: -1;
+  opacity: 0.5;
+}
+
+/* Hero Section Text */
+.hero-text {
+  z-index: 10;
+}
+
+/* Announcement Text */
+.announcement {
+  font-size: 20px;
+  font-weight: 400;
+  margin-bottom: 15px;
+  color: #555; /* Softer dark gray */
+}
+
+.announcement-link {
+  color: #4A90E2; /* Soft blue accent */
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* Headline Styling */
+.headline {
+  font-size: 4rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  line-height: 1.2;
+  background: linear-gradient(90deg, #2D3A3F, #4A90E2); /* Dark gray to soft blue gradient */
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+}
+
+/* Description Styling */
+.description {
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: rgba(51, 51, 51, 0.8); /* Soft gray */
+  margin-bottom: 20px;
+}
+
+/* Call to Action Buttons */
+.cta-buttons {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+}
+
+/* 'Get Started' Button */
+.get-started-btn {
+  padding: 12px 24px;
+  background-color: #4A90E2; /* Soft blue button */
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 50px;
+  transition: background-color 0.3s, transform 0.3s ease;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.get-started-btn:hover {
+  background-color: #5C8EC4; /* Slightly darker blue on hover */
+  transform: scale(1.05);
+}
+
+/* 'Learn More' Link */
+.learn-more-link {
+  font-size: 16px;
+  color: #4A90E2; /* Soft blue */
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.learn-more-link:hover {
+  color: #333; /* Dark gray on hover for contrast */
+}
+
+/* Mobile Responsiveness */
+@media screen and (max-width: 768px) {
+  .hero-text {
+    padding: 20px;
+  }
+
+  .headline {
+    font-size: 2.5rem;
+    line-height: 1.4;
+  }
+
+  .description {
+    font-size: 1.1rem;
+  }
+
+  .cta-buttons {
+    flex-direction: column;
+    gap: 15px;
+  }
+}

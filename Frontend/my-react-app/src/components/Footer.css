@@ -1,0 +1,129 @@
+/* General layout to make sure the footer stays at the bottom */
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Footer container styling */
+.footer-container {
+  background-color: #fff;
+  padding: 20px 40px;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: auto; /* Makes sure footer sticks to the bottom */
+  width: 100%;
+}
+
+/* Footer content wrapper */
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
+  margin-bottom: 20px;
+}
+
+/* Footer navigation links */
+.footer-links {
+  display: flex;
+  gap: 30px;
+}
+
+.footer-nav-list {
+  display: flex;
+  gap: 30px;
+}
+
+.footer-nav-link {
+  font-size: 14px;
+  color: #333;
+  text-decoration: none;
+  font-weight: 600;
+  position: relative;
+  padding: 10px 12px;
+  transition: color 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+}
+
+.footer-nav-link:hover {
+  color: #4a90e2; /* Match navbar hover color */
+  transform: translateY(-2px);
+}
+
+.footer-nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #4a90e2;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.footer-nav-link:hover::after {
+  transform: scaleX(1);
+}
+
+/* Footer social media icons */
+.footer-socials {
+  display: flex;
+  gap: 20px;
+}
+
+.social-icon-link {
+  display: inline-block;
+}
+
+.social-icon {
+  font-size: 24px;
+  color: #333;
+  transition: transform 0.3s ease;
+}
+
+.social-icon-link:hover .social-icon {
+  transform: scale(1.2);
+  color: #3498db;  /* Change color on hover */
+}
+
+/* Footer bottom text (Copyright) */
+.footer-bottom {
+  text-align: center;
+  font-size: 14px;
+  color: #777;
+}
+
+.footer-bottom p {
+  margin: 0;
+  padding-top: 10px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 15px;
+  }
+
+  .footer-socials {
+    margin-top: 15px;
+    gap: 10px;
+  }
+}
