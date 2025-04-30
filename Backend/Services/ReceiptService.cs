@@ -91,18 +91,24 @@ namespace Backend.Services
         public async Task<ReceiptDto?> Update(Guid id, ReceiptDto receiptDto)
         {
             var existingReceipt = await _receiptRepository.GetByIdAsync(id);
-            if (existingReceipt == null) return null;
+            if (existingReceipt == null) return null;  // Return null if the receipt doesn't exist
 
-            // change userid if it is changed in the new receipt
-            if (existingReceipt.UserId != receiptDto.UserId) existingReceipt.UserId = receiptDto.UserId;
+            // Update basic receipt properties
+            existingReceipt.UserId = receiptDto.UserId;
+            existingReceipt.TotalAmount = receiptDto.TotalAmount;
 
-            // Ensure ReceiptProducts are not null
-            if (existingReceipt.ReceiptProducts != null && receiptDto.ReceiptProducts != null)
+            // Step 1: Ensure ReceiptProducts are initialized
+            if (existingReceipt.ReceiptProducts == null)
             {
-                // Identify products to remove
+                existingReceipt.ReceiptProducts = new List<ReceiptProduct>();
+            }
+
+            // Step 2: Remove old products that no longer exist in the list
+            if (receiptDto.ReceiptProducts != null)
+            {
                 var productsNeededToRemove = existingReceipt.ReceiptProducts
                     .Where(rp => !receiptDto.ReceiptProducts.Any(rpDto => rpDto.ProductId == rp.ProductId))
-                    .ToList(); // Use ToList to avoid modifying the collection during iteration
+                    .ToList();  // Use ToList to avoid modifying the collection during iteration
 
                 // Remove the identified products
                 foreach (var product in productsNeededToRemove)
@@ -110,37 +116,45 @@ namespace Backend.Services
                     existingReceipt.ReceiptProducts.Remove(product);
                 }
             }
-
-            // Add or update products
-            foreach(var updatedProduct in receiptDto.ReceiptProducts)
-            {
-                var existingProduct = existingReceipt.ReceiptProducts?.FirstOrDefault(rp => rp.Id == updatedProduct.Id);
-                
-                if(existingProduct != null)
+            var updatedList = receiptDto.ReceiptProducts
+                .Select(dto => new ReceiptProduct
                 {
+                    Id = dto.Id,
+                    ProductId = dto.ProductId,
+                    Quantity = dto.Quantity,
+                    Price = dto.Price,
+                    ReceiptId = id
+                })
+                .ToList();
+            
+            // Step 3: Add new or update existing products
+            foreach (var updatedProduct in updatedList)
+            {
+                var existingProduct = existingReceipt.ReceiptProducts.FirstOrDefault(rp => rp.ProductId == updatedProduct.ProductId);
+
+                if (existingProduct != null)
+                {
+
+                    // Update existing product (quantity and price)
                     existingProduct.Quantity = updatedProduct.Quantity;
                     existingProduct.Price = updatedProduct.Price;
                 }
                 else
                 {
-                    var newProduct = new ReceiptProduct {
-                        Id = Guid.NewGuid(),
-                        ProductId = updatedProduct.ProductId,
-                        Quantity = updatedProduct.Quantity,
-                        Price = updatedProduct.Price,
-                        ReceiptId = id
-                    };
-                    existingReceipt.ReceiptProducts.Add(newProduct);
+                    // Add new product (ensure ReceiptId is set)
+                    await _receiptRepository.AddReceiptProduct(updatedProduct);
                 }
-
             }
 
-            // calculating total amount
+            // Step 4: Recalculate total amount
             existingReceipt.TotalAmount = existingReceipt.ReceiptProducts.Sum(rp => rp.Quantity * rp.Price);
 
+            // Step 5: Save changes to the database
             await _receiptRepository.Update(existingReceipt);
 
+            // Return the updated ReceiptDto
             return _mapper.Map<ReceiptDto>(existingReceipt);
         }
+
     }
 }

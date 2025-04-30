@@ -12,6 +12,7 @@ namespace Backend.Repositories
         Task Delete(Guid id);
         Task<Receipt?> GetByIdAsync(Guid id);
         Task Update(Receipt receipt);
+        Task AddReceiptProduct(ReceiptProduct receiptProduct);
     }
 
     public class ReceiptRepository : IReceiptRepository
@@ -41,6 +42,18 @@ namespace Backend.Repositories
             try
             {
                 _context.ReceiptProducts.AddRange(receiptProducts);
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        public async Task AddReceiptProduct(ReceiptProduct receiptProduct)
+        {
+            try
+            {
+                _context.ReceiptProducts.Add(receiptProduct);
                 await _context.SaveChangesAsync();
             }
             catch
