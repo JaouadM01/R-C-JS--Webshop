@@ -46,6 +46,14 @@ export default function Footer() {
                 Marketplace
               </a>
             </li>
+            <li>
+              <a
+                className="footer-nav-link"
+                onClick={() => navigate('/login')}
+              >
+                Login
+              </a>
+            </li>
           </ul>
         </div>
 

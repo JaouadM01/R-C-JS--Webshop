@@ -1,29 +1,27 @@
-import './App.css'
+import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Layout from './components/Layout';
+import Layout from './components/layout/Layout';
 import Hero from './components/Hero';
-import ProductList from './components/ProductsList'
-import PRODUCTS from './assets/lists/PRODUCTS'
+import ProductList from './components/ProductsList';
+import PRODUCTS from './assets/lists/PRODUCTS';
 import CommunityPage from './components/CommunityPage';
 import ProductDetails from './components/ProductDetails';
-
+import Login from './components/Login';
 
 function App() {
-
   return (
-    <div>
-        <Router>
-          <Routes>
-            <Route element={<Layout />}>
-              <Route path='/' element={<Hero />}/>
-              <Route path='/productlist' element={<ProductList products={PRODUCTS}/>}/>
-              <Route path='/communitypage' element={<CommunityPage />}/>
-              <Route path='/productdetails/:id' element={<ProductDetails />}/>
-            </Route>
-          </Routes>
-        </Router>
-    </div>
-  )
+    <Router>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Hero />} />
+          <Route path="/productlist" element={<ProductList products={PRODUCTS} />} />
+          <Route path="/communitypage" element={<CommunityPage />} />
+          <Route path="/productdetails/:id" element={<ProductDetails />} />
+          <Route path="/login" element={<Login />} />
+        </Route>
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;

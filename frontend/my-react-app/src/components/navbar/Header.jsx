@@ -56,7 +56,6 @@ export default function Header() {
               Login
             </a>
           </li>
-            
         </ul>
       </nav>
     </header>

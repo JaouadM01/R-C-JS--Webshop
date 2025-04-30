@@ -34,7 +34,7 @@ namespace Backend.Controllers
                 return StatusCode(500, $"Backend Server Error: {ex.Message}");
             }
         }
-        [HttpGet]
+        [HttpGet("all")]
         public async Task<ActionResult<IEnumerable<ReceiptDto>>> GetAllAsync()
         {
             try

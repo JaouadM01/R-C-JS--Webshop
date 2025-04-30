@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom'; // Dit zal de pagina-inhoud dynamisch laden
-import Header from './Header'
-import Footer from './Footer';
+import Header from '../navbar/Header'
+import Footer from '../footer/Footer';
 
 const Layout = () => {
   return (
