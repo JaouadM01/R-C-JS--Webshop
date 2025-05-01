@@ -15,6 +15,7 @@ namespace Backend.Services
         Task<string?> Login(string email, string password);
         Task<bool> Delete(Guid id);
         Task<UserDto?> GetById(Guid id);
+        Task<UserDto> GetUserProfileAsync(Guid userId);
     }
 
     public class UserService : IUserService
@@ -108,54 +109,67 @@ namespace Backend.Services
         }
 
         public async Task<bool> Favourite(Guid productId, Guid userId)
-{
-    // Get the existing user from the repository
-    var existingUser = await _repo.GetByIdAsync(userId);
+        {
+            // Get the existing user from the repository
+            var existingUser = await _repo.GetByIdAsync(userId);
 
-    // If the user doesn't exist, return false
-    if (existingUser == null) return false;
+            // If the user doesn't exist, return false
+            if (existingUser == null) return false;
 
-    // If the user doesn't have any favourites yet, initialize an empty list
-    if (existingUser.Favourites == null)
-    {
-        existingUser.Favourites = new List<Guid>();
-    }
+            // If the user doesn't have any favourites yet, initialize an empty list
+            if (existingUser.Favourites == null)
+            {
+                existingUser.Favourites = new List<Guid>();
+            }
 
-    // Check if the product is already in the user's favourites
-    if (existingUser.Favourites.Contains(productId))
-    {
-        return false;  // The product is already in the favourites list
-    }
+            // Check if the product is already in the user's favourites
+            if (existingUser.Favourites.Contains(productId))
+            {
+                return false;  // The product is already in the favourites list
+            }
 
-    // Add the product to the user's favourites list
-    existingUser.Favourites.Add(productId);
+            // Add the product to the user's favourites list
+            existingUser.Favourites.Add(productId);
 
-    // Update the user in the repository
-    await _repo.Update(existingUser);
+            // Update the user in the repository
+            await _repo.Update(existingUser);
 
-    return true;  // Return true to indicate that the product was successfully added
-}
+            return true;  // Return true to indicate that the product was successfully added
+        }
 
-    public async Task<bool> UnFavourite(Guid productId, Guid userId)
-{
-    // Get the existing user
-    var existingUser = await _repo.GetByIdAsync(userId);
-    if (existingUser == null) return false;
+        public async Task<bool> UnFavourite(Guid productId, Guid userId)
+        {
+            // Get the existing user
+            var existingUser = await _repo.GetByIdAsync(userId);
+            if (existingUser == null) return false;
 
-    // If the user doesn't have any favourites yet, return false
-    if (existingUser.Favourites == null || !existingUser.Favourites.Contains(productId))
-    {
-        return false;  // Product not in favourites
-    }
+            // If the user doesn't have any favourites yet, return false
+            if (existingUser.Favourites == null || !existingUser.Favourites.Contains(productId))
+            {
+                return false;  // Product not in favourites
+            }
 
-    // Remove the product from the favourites list
-    existingUser.Favourites.Remove(productId);
+            // Remove the product from the favourites list
+            existingUser.Favourites.Remove(productId);
 
-    // Update the user in the repository
-    await _repo.Update(existingUser);
+            // Update the user in the repository
+            await _repo.Update(existingUser);
 
-    return true;  // Successfully removed from favourites
-}
+            return true;  // Successfully removed from favourites
+        }
+
+        public async Task<UserDto> GetUserProfileAsync(Guid userId)
+        {
+            var user = await _repo.GetByIdAsync(userId);
+            if (user == null)
+            {
+                return null; // User not found
+            }
+
+            
+
+            return _mapper.Map<UserDto>(user);
+        }
 
 
 

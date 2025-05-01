@@ -11,6 +11,18 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add CORS policy
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:5173") // Allow requests from your frontend
+                  .AllowAnyHeader() // Allow all headers
+                  .AllowAnyMethod(); // Allow all HTTP methods (GET, POST, etc.)
+        });
+});
+
 // Register SQLite and other services
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -56,6 +68,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 var app = builder.Build();
+
+// Use the CORS policy
+app.UseCors("AllowFrontend");
 
 // Seed the database
 using (var scope = app.Services.CreateScope())

@@ -1,86 +1,84 @@
 /* Main container for the countdown timer */
 .countdown-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    background: linear-gradient(135deg, #ff80b5, #9089fc);
-    border-radius: 15px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
-    max-width: 400px;
-    margin: 20px auto;
-    text-align: center;
-    color: #fff;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .countdown-container:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 10px 60px rgba(0, 0, 0, 0.3);
-  }
-  
-  /* Title of the countdown timer */
-  .countdown-title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    letter-spacing: 2px;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-    background-image: linear-gradient(to right, #fff, #ffb6c1);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-  
-  /* Timer display with custom font */
-  .timer {
-    font-size: 3rem;
-    font-weight: 700;
-    letter-spacing: 2px;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    background: #4b6cb7;
-    border-radius: 10px;
-    padding: 10px 20px;
-    color: #fff;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    animation: pulse 1.5s ease-in-out infinite;
-  }
-  
-  /* Individual time parts (days, hours, minutes, seconds) */
-  .timer span {
-    font-size: 2rem;
-    background: #ff7e5f;
-    border-radius: 8px;
-    padding: 5px 15px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  }
-  
-  /* Small text under the timer */
-  small {
-    font-size: 0.9rem;
-    font-style: italic;
-    color: rgba(255, 255, 255, 0.7);
-    margin-top: 10px;
-    display: block;
-  }
-  
-  /* Animation for pulsing effect on the timer */
-@keyframes pulse {
-    0% {
-      transform: scale(1);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    }
-    50% {
-      transform: scale(1.05);
-      box-shadow: 0 5px 12px rgba(0, 0, 0, 0.25);
-    }
-    100% {
-      transform: scale(1);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: linear-gradient(135deg, #ff80b5, #9089fc);
+  border-radius: 15px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+  max-width: 400px;
+  margin: 20px auto;
+  text-align: center;
+  color: #fff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-  
+.countdown-container:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 60px rgba(0, 0, 0, 0.3);
+}
+
+/* Title of the countdown timer */
+.countdown-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  background-image: linear-gradient(to right, #fff, #ffb6c1);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Timer display with custom font */
+.timer {
+  font-size: 3rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  background: #4b6cb7;
+  border-radius: 10px;
+  padding: 10px 20px;
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Individual time parts (days, hours, minutes, seconds) */
+.timer span {
+  font-size: 2rem;
+  background: #ff7e5f;
+  border-radius: 8px;
+  padding: 5px 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Small text under the timer */
+small {
+  font-size: 0.9rem;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 10px;
+  display: block;
+}
+
+/* Animation for pulsing effect on the timer */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.25);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+}

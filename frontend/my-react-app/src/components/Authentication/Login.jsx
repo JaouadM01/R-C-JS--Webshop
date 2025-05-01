@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import './Login.css'; // Make sure the path is correct
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
   
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -19,12 +21,25 @@ function Login() {
         },
         body: JSON.stringify(loginDto),
       });
+      
+      console.log("LoginDto:", loginDto);
+      console.log("Response status:", response.status);
 
       if (response.ok) {
         const data = await response.json();
+        console.log("Response data: ", data);
         // Store the token in localStorage or sessionStorage
-        localStorage.setItem('authToken', data.Token);
-        window.location.href = '/'; // Redirect to another page
+        localStorage.setItem('authToken', data.token);
+        if (data.token) {
+          console.log("User has logged in");
+          if (data.token) {
+            navigate('/profile'); // Redirect to another page
+          } else {
+            setError('Login failed: Invalid token');
+          }
+        } else {
+          setError('Login failed: Token not received');
+        }
       } else {
         const errorText = await response.text();
         setError(errorText);

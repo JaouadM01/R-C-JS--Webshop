@@ -6,7 +6,8 @@ import ProductList from './components/ProductsList';
 import PRODUCTS from './assets/lists/PRODUCTS';
 import CommunityPage from './components/CommunityPage';
 import ProductDetails from './components/ProductDetails';
-import Login from './components/Login';
+import Profile from './components/Profile';
+import Login from './components/Authentication/Login';
 
 function App() {
   return (
@@ -17,8 +18,10 @@ function App() {
           <Route path="/productlist" element={<ProductList products={PRODUCTS} />} />
           <Route path="/communitypage" element={<CommunityPage />} />
           <Route path="/productdetails/:id" element={<ProductDetails />} />
-          <Route path="/login" element={<Login />} />
+          <Route path='/profile' element={<Profile />}/>
+          <Route path='/login' element={<Login />}/>
         </Route>
+        
       </Routes>
     </Router>
   );

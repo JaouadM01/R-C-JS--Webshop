@@ -1,58 +1,57 @@
 /* General styling for the product list container */
 .product-list-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 16px;
-  }
-  
-  /* Grid layout for the products */
-  .product-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 24px;
-  }
-  
-  /* Styling for each product card */
-  .product-card {
-    background-color: #ffffff;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .product-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-  }
-  
-  /* Image styling */
-  .product-image {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    transition: opacity 0.3s ease;
-  }
-  
-  .product-card:hover .product-image {
-    opacity: 0.8;
-  }
-  
-  /* Styling for the product name */
-  .product-name {
-    margin-top: 16px;
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #333333;
-  }
-  
-  /* Styling for the product description */
-  .product-description {
-    margin-top: 8px;
-  }
-  
-  .description-item {
-    font-size: 1rem;
-    color: #555555;
-  }
-  
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+/* Grid layout for the products */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 24px;
+}
+
+/* Styling for each product card */
+.product-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Image styling */
+.product-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  transition: opacity 0.3s ease;
+}
+
+.product-card:hover .product-image {
+  opacity: 0.8;
+}
+
+/* Styling for the product name */
+.product-name {
+  margin-top: 16px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333333;
+}
+
+/* Styling for the product description */
+.product-description {
+  margin-top: 8px;
+}
+
+.description-item {
+  font-size: 1rem;
+  color: #555555;
+}

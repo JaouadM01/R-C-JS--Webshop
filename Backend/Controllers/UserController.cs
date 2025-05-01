@@ -112,28 +112,60 @@ namespace Backend.Controllers
         }
 
         [HttpPut("Favourite")]
-public async Task<ActionResult> Favourite(Guid productId, Guid userId)
-{
-    try
-    {
-        var result = await _service.Favourite(productId, userId);
-        if (result == false)
+        public async Task<ActionResult> Favourite(Guid productId, Guid userId)
         {
-            // If the product is already in the favourites list, remove it
-            var unfavourited = await _service.UnFavourite(productId, userId);
-            if (unfavourited)
+            try
             {
-                return Ok("Product removed from favourites.");
+                var result = await _service.Favourite(productId, userId);
+                if (result == false)
+                {
+                    // If the product is already in the favourites list, remove it
+                    var unfavourited = await _service.UnFavourite(productId, userId);
+                    if (unfavourited)
+                    {
+                        return Ok("Product removed from favourites.");
+                    }
+                    return BadRequest("Failed to remove product from favourites.");
+                }
+                return Ok("Product added to favourites.");
             }
-            return BadRequest("Failed to remove product from favourites.");
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Backend Server Error: {ex.Message}");
+            }
         }
-        return Ok("Product added to favourites.");
-    }
-    catch (Exception ex)
-    {
-        return StatusCode(500, $"Backend Server Error: {ex.Message}");
-    }
-}
+
+        [HttpGet("Profile")]
+        [Authorize] // Ensures that the user is authenticated
+        public async Task<ActionResult<UserDto>> GetProfile()
+        {
+            try
+            {
+                var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+                if (userId == null)
+                {
+                    return Unauthorized("User not authenticated");
+                }
+
+                if (!Guid.TryParse(userId, out var userGuid))
+                {
+                    return BadRequest("Invalid user ID format");
+                }
+
+                var userProfile = await _service.GetUserProfileAsync(userGuid);
+                if (userProfile == null)
+                {
+                    return NotFound("User profile not found");
+                }
+
+                return Ok(userProfile);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
 
 
     }
