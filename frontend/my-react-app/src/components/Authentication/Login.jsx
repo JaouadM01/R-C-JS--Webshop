@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import './Login.css'; // Make sure the path is correct
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthProvider';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  const {login} = useAuth();
   
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -28,8 +31,7 @@ function Login() {
       if (response.ok) {
         const data = await response.json();
         console.log("Response data: ", data);
-        // Store the token in localStorage or sessionStorage
-        localStorage.setItem('authToken', data.token);
+        login(data.token);
         if (data.token) {
           console.log("User has logged in");
           if (data.token) {

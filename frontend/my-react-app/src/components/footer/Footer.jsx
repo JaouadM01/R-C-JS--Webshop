@@ -49,9 +49,9 @@ export default function Footer() {
             <li>
               <a
                 className="footer-nav-link"
-                onClick={() => navigate('/login')}
+                onClick={() => navigate('/profile')}
               >
-                Login
+                My Profile
               </a>
             </li>
           </ul>

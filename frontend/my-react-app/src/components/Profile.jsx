@@ -1,22 +1,19 @@
 import React from 'react';
-import useAuth from './hooks/useAuth'; // Adjust the path if necessary
+import { useAuth } from './context/AuthProvider';
+import { useNavigate } from 'react-router-dom';
 
 function Profile() {
-    const { isAuthenticated, userProfile, loading, error, logout } = useAuth();
-
-    if (loading) {
-        return <div>Loading...</div>;
-    }
+    const { isAuthenticated, userProfile, logout } = useAuth();
+    const navigate = useNavigate();
 
     if (!isAuthenticated) {
-        return <div>Please log in to view your profile. </div>;
+        return <div>
+            <div>
+            Please log in to view your profile.
+            </div> 
+                <button onClick={() => navigate("/login")}>Click here to go to login page</button>
+            </div>;
     }
-
-    if (error) {
-        return <div style={{ color: 'red' }}>{error}</div>;
-    }
-
-    
 
     return (
         <div>
