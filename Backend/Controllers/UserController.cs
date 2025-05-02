@@ -167,6 +167,21 @@ namespace Backend.Controllers
             }
         }
 
+        [HttpGet("getfavourites")]
+        public async Task<ActionResult<List<Guid>>> GetFavourites(Guid id)
+        {
+            try  {
+                var usersFavourites = await _service.GetFavourites(id);
+
+                if(usersFavourites != null) return usersFavourites;
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
 
     }
 }

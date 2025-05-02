@@ -24,7 +24,7 @@ export function AuthProvider({ children }) {
             if (response.ok) {
                 const data = await response.json();
                 setUserProfile(data);
-                console.log("User profile data has been saved");
+                console.log("User profile data has been saved: ", data);
             }
         } catch (error) {
             console.error('Error fetching profile:', error);

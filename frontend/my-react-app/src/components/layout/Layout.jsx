@@ -1,13 +1,14 @@
-import { Outlet } from 'react-router-dom'; // Dit zal de pagina-inhoud dynamisch laden
-import Header from '../navbar/Header'
+import { Outlet } from 'react-router-dom';
+import Header from '../navbar/Header';
 import Footer from '../footer/Footer';
+import './Layout.css'; 
 
 const Layout = () => {
   return (
-    <div>
-      <Header /> {/* De navbar is op elke pagina zichtbaar */}
+    <div className="layout-container">
+      <Header />
       <div className="page-content">
-        <Outlet /> {/* De inhoud van de huidige pagina wordt hier weergegeven */}
+        <Outlet />
       </div>
       <Footer />
     </div>

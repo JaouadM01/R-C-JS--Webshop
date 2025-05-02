@@ -15,7 +15,8 @@ namespace Backend.Services
         Task<string?> Login(string email, string password);
         Task<bool> Delete(Guid id);
         Task<UserDto?> GetById(Guid id);
-        Task<UserDto> GetUserProfileAsync(Guid userId);
+        Task<UserDto?> GetUserProfileAsync(Guid userId);
+        Task<List<Guid>?> GetFavourites(Guid id);
     }
 
     public class UserService : IUserService
@@ -158,7 +159,7 @@ namespace Backend.Services
             return true;  // Successfully removed from favourites
         }
 
-        public async Task<UserDto> GetUserProfileAsync(Guid userId)
+        public async Task<UserDto?> GetUserProfileAsync(Guid userId)
         {
             var user = await _repo.GetByIdAsync(userId);
             if (user == null)
@@ -171,7 +172,12 @@ namespace Backend.Services
             return _mapper.Map<UserDto>(user);
         }
 
-
+        public async Task<List<Guid>?> GetFavourites(Guid id)
+        {
+            var favouriteslist = await _repo.GetFavourites(id);
+            if (favouriteslist == null) return null;
+            return favouriteslist;
+        }
 
     }
 }

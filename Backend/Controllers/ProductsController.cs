@@ -77,7 +77,7 @@ namespace Backend.Controllers
                 return StatusCode(500, "An error occurred while deleting the product.");
             }
         }
-        [Authorize]
+        
         [HttpGet("{id:guid}")]
         public async Task<ActionResult<ProductDto>> GetById(Guid id)
         {

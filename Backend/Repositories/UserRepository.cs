@@ -13,6 +13,7 @@ namespace Backend.Repositories
         Task<User?> GetByEmailAsync(string email);
         Task Delete(User user);
         Task<User?> GetById(Guid id);
+        Task<List<Guid>> GetFavourites(Guid id);
     }
 
     public class UserRepository : IUserRepository
@@ -89,6 +90,18 @@ namespace Backend.Repositories
                 return existingUser;
             }
             catch{
+                throw;
+            }
+        }
+
+        public async Task<List<Guid>> GetFavourites(Guid id)
+        {
+            try {
+                var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+                if(existingUser == null || existingUser.Favourites == null) return new List<Guid>();
+                return existingUser.Favourites;
+            }
+            catch {
                 throw;
             }
         }
