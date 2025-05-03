@@ -71,7 +71,8 @@ namespace Backend.Repositories
 
         public async Task Delete(User user)
         {
-            try {
+            try
+            {
                 _context.Users.Remove(user);
                 await _context.SaveChangesAsync();
             }
@@ -84,30 +85,31 @@ namespace Backend.Repositories
 
         public async Task<User?> GetById(Guid id)
         {
-            try {
+            try
+            {
                 var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
-                if(existingUser == null) return null;
+                if (existingUser == null) return null;
                 return existingUser;
             }
-            catch{
+            catch
+            {
                 throw;
             }
         }
 
         public async Task<List<Guid>> GetFavourites(Guid id)
         {
-            try {
+            try
+            {
                 var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
-                if(existingUser == null || existingUser.Favourites == null) return new List<Guid>();
+                if (existingUser == null || existingUser.Favourites == null) return new List<Guid>();
                 return existingUser.Favourites;
             }
-            catch {
+            catch
+            {
                 throw;
             }
         }
     }
-
-
-
 
 }

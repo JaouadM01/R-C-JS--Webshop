@@ -39,7 +39,14 @@ namespace Backend.Services
         public async Task<IEnumerable<UserDto>> GetAllAsync()
         {
             var users = await _repo.GetAllAsync();
-            return _mapper.Map<IEnumerable<UserDto>>(users);
+            var userDtos = users.Select(user =>
+    {
+        var userDto = _mapper.Map<UserDto>(user);
+        userDto.Role = user.Role.ToString(); // Convert enum to string
+        return userDto;
+    });
+
+            return userDtos;
         }
 
         public async Task<UserDto?> Create(UserDto userDto)
@@ -68,7 +75,8 @@ namespace Backend.Services
 
             existingUser.Name = user.Name;
             existingUser.Email = user.Email;
-            existingUser.Role = user.Role;
+            existingUser.Role = Enum.TryParse<UserRole>(user.Role, out var parsedRole) ? parsedRole : existingUser.Role;
+            // possible bad update -> from role to string in dto
 
             if (!string.IsNullOrEmpty(user.Password))
             {
@@ -106,7 +114,11 @@ namespace Backend.Services
             var existingUser = await _repo.GetByIdAsync(id);
             if (existingUser == null) return null;
 
-            return _mapper.Map<UserDto>(existingUser);
+            var userDto = _mapper.Map<UserDto>(existingUser);
+
+            userDto.Role = existingUser.Role.ToString();
+
+            return userDto;
         }
 
         public async Task<bool> Favourite(Guid productId, Guid userId)
@@ -167,9 +179,12 @@ namespace Backend.Services
                 return null; // User not found
             }
 
-            
+            var userDto = _mapper.Map<UserDto>(user);
 
-            return _mapper.Map<UserDto>(user);
+            userDto.Role = user.Role.ToString();
+
+            return userDto;
+
         }
 
         public async Task<List<Guid>?> GetFavourites(Guid id)

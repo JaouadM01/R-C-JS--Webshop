@@ -9,7 +9,7 @@ namespace Backend.Services
     public interface IProductService
     {
         Task<IEnumerable<ProductDto>> GetAllAsync();
-        Task<Product> Create (ProductDto productDto, Guid userId);
+        Task<Product> Create(ProductDto productDto, Guid userId);
         Task<ProductDto> Update(Guid id, ProductDto product);
         Task<bool> Delete(Guid id);
         Task<ProductDto?> GetById(Guid id);
@@ -30,7 +30,13 @@ namespace Backend.Services
         public async Task<IEnumerable<ProductDto>> GetAllAsync()
         {
             var products = await _repo.GetAllAsync();
-            return _mapper.Map<IEnumerable<ProductDto>>(products);
+            var productDtos = products.Select(product =>
+        {
+            var productDto = _mapper.Map<ProductDto>(product);
+            productDto.Type = product.Type.ToString(); // Convert enum to string
+            return productDto;
+        });
+            return productDtos;
         }
 
         public async Task<Product> Create(ProductDto productDto, Guid userId)
@@ -43,13 +49,13 @@ namespace Backend.Services
         public async Task<ProductDto> Update(Guid id, ProductDto product)
         {
             var existingProduct = await _repo.GetByIdAsync(id);
-            if(existingProduct == null) 
+            if (existingProduct == null)
                 throw new KeyNotFoundException($"Product with ID {product.Id}:{id} not found.");
-            
+
             // Update the existing product
             existingProduct.Name = product.Name;
             existingProduct.Description = product.Description;
-            existingProduct.Type = product.Type;
+            existingProduct.Type = Enum.Parse<Backend.Models.Types>(product.Type, true);
             existingProduct.Price = product.Price;
 
             await _repo.Update(existingProduct);
@@ -60,26 +66,32 @@ namespace Backend.Services
         public async Task<bool> Delete(Guid id)
         {
             var existingProduct = await _repo.GetByIdAsync(id);
-            if(existingProduct == null) return false;
+            if (existingProduct == null) return false;
 
             await _repo.Delete(existingProduct);
             return true;
         }
 
-        public async Task<ProductDto?> GetById(Guid id){
+        public async Task<ProductDto?> GetById(Guid id)
+        {
             var product = await _repo.GetByIdAsync(id);
-            if(product == null) return null;
+            if (product == null) return null;
 
-            return _mapper.Map<ProductDto>(product);
+            var productDto = _mapper.Map<ProductDto>(product);
+
+            // Convert enum to string
+            productDto.Type = product.Type.ToString(); // This automatically converts it to a string
+
+            return productDto;
         }
 
         public async Task<IEnumerable<ProductDto>> GetProductListById(Guid id)
         {
             var products = await _repo.GetProductListById(id);
-            if(products == null) return Enumerable.Empty<ProductDto>();
+            if (products == null) return Enumerable.Empty<ProductDto>();
 
             return _mapper.Map<IEnumerable<ProductDto>>(products);
         }
-        
+
     }
 }
