@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from './context/AuthProvider';
 import { useNavigate } from 'react-router-dom';
+import './Profile.css';
 
 function Profile() {
     const { isAuthenticated, userProfile, logout } = useAuth();
@@ -24,7 +25,6 @@ function Profile() {
                 if (response.ok) {
                     const data = await response.json();
                     setFavourites(data);
-                    console.log('Favourite list has been saved: ', data);
                 }
             } catch (error) {
                 console.error('Error fetching favourites:', error);
@@ -53,9 +53,8 @@ function Profile() {
                     product && self.findIndex((p) => p?.id === product?.id) === index
                 );
                 setProducts(uniqueProducts);
-                console.log('Products have been added to the list: ', uniqueProducts);
             } catch (error) {
-                console.error('Error fetching products:', error);
+                console.error('Error fetching products: ', error);
             }
         };
 
@@ -64,31 +63,64 @@ function Profile() {
         }
     }, [favourites]);
 
-    // Render the profile
+    const toggleFavourite = async (productId, userId) => {
+        try {
+            // Send request to toggle the favourite status (Add or Remove)
+            const response = await fetch(`http://localhost:5224/api/User/Favourite?productId=${productId}&userId=${userId}`, {
+                method: 'PUT', // Assuming PUT is used for toggling
+            });
+
+            if (response.ok) {
+                // If toggle is successful, fetch updated favourites list
+                const updatedFavouritesResponse = await fetch(`http://localhost:5224/api/User/getfavourites?id=${userId}`);
+                if (updatedFavouritesResponse.ok) {
+                    const updatedData = await updatedFavouritesResponse.json();
+                    setFavourites(updatedData); // Update favourites state with the new list
+                }
+            } else {
+                console.error('Failed to toggle favourite');
+            }
+        } catch (error) {
+            console.error('Error with toggling favourites:', error);
+        }
+    };
+
     return (
-        <div>
-            <h2>Profile</h2>
-            <p>Name: {userProfile?.name || 'N/A'}</p>
-            <p>Email: {userProfile?.email || 'N/A'}</p>
-            <p>Role: {userProfile?.role || 'N/A'}</p>
-            <p>Id: {userProfile?.id || 'N/A'}</p>
-            {isAuthenticated && (
-                <li>
-                    <button onClick={logout}>Logout</button>
-                </li>
-            )}
-            {products && products.length > 0 ? (
-                products.map((product, index) => (
-                    <ul key={index}>
-                        <li>{product.name || 'Unnamed Product'}</li>
-                        <li>{product.type || 'Unnamed Product'}</li>
-                        <li>{product.description || 'Unnamed Product'}</li>
-                        <li>{product.price || 'Unnamed Product'}</li>
-                    </ul>
-                ))
-            ) : (
-                <p>No products found.</p>
-            )}
+        <div className="profile-container">
+            <section className="profile-header">
+                <h2 className="profile-title">My Profile</h2>
+                <p className="profile-info"><strong>Name:</strong> {userProfile?.name || 'N/A'}</p>
+                <p className="profile-info"><strong>Email:</strong> {userProfile?.email || 'N/A'}</p>
+                <p className="profile-info"><strong>Role:</strong> {userProfile?.role || 'N/A'}</p>
+                <p className="profile-info"><strong>ID:</strong> {userProfile?.id || 'N/A'}</p>
+                {isAuthenticated && (
+                    <button className="logout-button" onClick={logout}>Logout</button>
+                )}
+            </section>
+
+            <section className="profile-favourites">
+                <h3 className="favourites-title">My Favourite Products</h3>
+                {products && products.length > 0 ? (
+                    <div className="products-list">
+                        {products.map((product, index) => (
+                            <div className="product-card" key={index}>
+                                <h4>{product.name || 'Unnamed Product'}</h4>
+                                <p><strong>Type:</strong> {product.type || 'Unknown'}</p>
+                                <p><strong>Description:</strong> {product.description || 'No description available'}</p>
+                                <p><strong>Price:</strong> ${product.price || 'N/A'}</p>
+                                <button 
+                                    onClick={() => toggleFavourite(product.id, userProfile?.id)}
+                                    className="favourite-button"
+                                >
+                                    {favourites.includes(product.id) ? 'Remove from Favourites' : 'Add to Favourites'}
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <p>No favourite products found.</p>
+                )}
+            </section>
         </div>
     );
 }
