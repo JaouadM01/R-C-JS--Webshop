@@ -28,22 +28,27 @@ export default function ProductDetails() {
         {productDetails ? (
           <div className="product-details">
             {/* Left: Product Image */}
-            <div className="product-image-container">
-              <img
-                src={productDetails.image.src}
-                alt={productDetails.image.alt}
-                className="product-image"
-              />
-            </div>
+                  <div className="product-image-container">
+                    <img
+                    src={productDetails.image.src}
+                    alt={productDetails.image.alt}
+                    className="product-image"
+                    />
+                  </div>
 
-            {/* Right: Product Info */}
-            <div className="product-info-container">
-              <h2 className="product-name">{productDetails.name}</h2>
-              <p className="product-description">
-                {productDetails.description.join(", ")}
-              </p>
+                  {/* Right: Product Info */}
+                  <div className="product-info-container">
+                    <h2 className="product-name">{productDetails.name}</h2>
+                    <p className="product-description">
+                    {productDetails.description.map((desc, index) => (
+                      <span key={index}>
+                      {desc}
+                      <br />
+                      </span>
+                    ))}
+                    </p>
 
-              {/* Add to Cart Button */}
+                    {/* Add to Cart Button */}
               <button className="add-to-cart-button">Get it now!</button>
             </div>
           </div>
