@@ -16,7 +16,7 @@ namespace Backend.Controllers
         {
             _service = service;
         }
-        [Authorize(Roles = "BackendEmployee")]
+        //[Authorize(Roles = "BackendEmployee")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductDto>>> GetAll()
         {

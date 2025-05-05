@@ -10,6 +10,8 @@ namespace Backend.Models
         // ensure link between product and user
         public Guid UserId{get; set;}
         public User? User{get; set;}
+        // link to the image on IPFS Pinata
+        public string? Image{get; set;}
     }
     public enum Types {
         Electronics,

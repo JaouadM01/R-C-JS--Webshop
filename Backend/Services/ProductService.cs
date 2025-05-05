@@ -57,6 +57,7 @@ namespace Backend.Services
             existingProduct.Description = product.Description;
             existingProduct.Type = Enum.Parse<Backend.Models.Types>(product.Type, true);
             existingProduct.Price = product.Price;
+            existingProduct.Image = product.Image;
 
             await _repo.Update(existingProduct);
 
