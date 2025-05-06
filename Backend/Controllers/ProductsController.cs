@@ -107,5 +107,19 @@ namespace Backend.Controllers
                 return StatusCode(500, $"An error occured while retrieving the product list: {ex.Message}");
             }
         }
+
+        [HttpPut("updateOwner")]
+        public async Task<ActionResult> UpdateOwner(Guid id, Guid productId)
+        {
+            try {
+                var updatedProduct = await _service.UpdateOwner(id, productId);
+                if(updatedProduct != null)return Ok();
+                return BadRequest();
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, $"An error occured while retrieving the product list: {ex.Message}");
+            }
+        }
     }
 }

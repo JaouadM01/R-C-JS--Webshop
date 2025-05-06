@@ -50,7 +50,9 @@ const ProductsList = () => {
                 <p className="description-item">No description available.</p>
               )}
             </div>
-
+                {product.description.split("/n").map((index, desc) => (
+                  <p key={index}>{desc}</p>
+                ))}
             {/* Display price */}
             <div className="product-price">
               {product.price ? `${product.price.toFixed(2)} Satoshi` : "Price not available"}

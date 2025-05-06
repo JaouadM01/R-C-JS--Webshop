@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import './ProductDetails.css';
+import { useAuth } from "./context/AuthProvider";
 
 export default function ProductDetails() {
   const { id } = useParams();  // Get the product ID from the URL
   const [productDetails, setProductDetails] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
   const navigate = useNavigate();
+  const { isAuthenticated, userProfile } = useAuth();
 
   // Fetch the product details based on the ID in the URL
   useEffect(() => {
@@ -23,6 +26,25 @@ export default function ProductDetails() {
 
     fetchDetails();
   }, [id]);
+
+  // Handle Purchase
+  const Purchase = async () => {
+    try {
+      const response = await fetch(`http://localhost:5224/api/Products/updateOwner?id=${userProfile.id}&productId=${id}`, {
+        method: 'PUT',  // Assuming PUT request for updating ownership
+      });
+      if (response.ok) {
+        setIsModalOpen(false);  // Close modal after successful purchase
+        alert("Purchase successful!");  // Notify user
+        // You may want to update state or navigate elsewhere after the purchase
+      } else {
+        alert("There was an error with the purchase. Please try again.");
+      }
+    } catch (error) {
+      console.error('Error changing ownership: ', error);
+      alert("Error making the purchase. Please try again later.");
+    }
+  }
 
   return (
     <div className="product-details-container">
@@ -56,13 +78,27 @@ export default function ProductDetails() {
               </div>
 
               {/* Add to Cart Button */}
-              <button className="add-to-cart-button">Get it now!</button>
+              {isAuthenticated ? 
+                <button className="add-to-cart-button" onClick={() => setIsModalOpen(true)}>Get it now!</button>
+                : <button className="add-to-cart-button" onClick={() => navigate("/login")}>Login first</button>}
             </div>
           </div>
         ) : (
           <h3 className="error-message">Product Not Found</h3>
         )}
       </div>
+
+      {/* Confirmation Modal */}
+      {isModalOpen && (
+        <div className="confirmation-modal">
+          <div className="modal-content">
+            <h3>Confirm Purchase</h3>
+            <p>Are you sure you want to purchase this product?</p>
+            <button className="confirm-button" onClick={Purchase}>Confirm</button>
+            <button className="cancel-button" onClick={() => setIsModalOpen(false)}>Cancel</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -14,6 +14,7 @@ namespace Backend.Services
         Task<bool> Delete(Guid id);
         Task<ProductDto?> GetById(Guid id);
         Task<IEnumerable<ProductDto>> GetProductListById(Guid id);
+        Task<ProductDto> UpdateOwner(Guid id, Guid productId);
     }
 
     public class ProductService : IProductService
@@ -92,6 +93,22 @@ namespace Backend.Services
             if (products == null) return Enumerable.Empty<ProductDto>();
 
             return _mapper.Map<IEnumerable<ProductDto>>(products);
+        }
+
+        public async Task<ProductDto> UpdateOwner(Guid id, Guid productId)
+        {
+            var existingProduct = await _repo.GetByIdAsync(productId);
+            if (existingProduct == null) 
+                throw new KeyNotFoundException($"Product with ID {productId} not found.");
+            
+            if(existingProduct.UserId != id){
+            existingProduct.UserId = id; 
+            }
+            else {throw new InvalidOperationException("The product already belongs to the specified user.");}
+            
+            await _repo.Update(existingProduct);
+
+            return _mapper.Map<ProductDto>(existingProduct); 
         }
 
     }
