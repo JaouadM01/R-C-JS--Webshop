@@ -28,6 +28,7 @@ body {
 
 /* Product Card Styles */
 .product-card {
+  position: relative;
   background-color: #fff;
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -53,6 +54,7 @@ body {
   height: auto;
   border-radius: 8px;
   transition: opacity 0.3s ease;
+  z-index: 1;
 }
 
 .product-card:hover .product-image {
@@ -84,6 +86,21 @@ body {
 .description-item {
   margin: 5px 0;
   color: #777;
+}
+
+/* Favorite Icon Positioning */
+.fav-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  z-index: 10;
+  opacity: 1;
+}
+
+.fav-icon:hover {
+  color: #e74c3c; /* Change color to red on hover */
 }
 
 /* Responsive Design for Mobile */

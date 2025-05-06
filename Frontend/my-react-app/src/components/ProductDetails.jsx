@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useAuth } from "./context/AuthProvider"; // Assuming you have this context
 import './ProductDetails.css';
-import { useAuth } from "./context/AuthProvider";
+import { MdFavorite, MdFavoriteBorder } from "react-icons/md"; // MdFavorite for filled, MdFavoriteBorder for outline
 
 export default function ProductDetails() {
   const { id } = useParams();  // Get the product ID from the URL
   const [productDetails, setProductDetails] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
+  const [isFavourite, setIsFavourite] = useState(false); // State to track if the product is in the favourite list
   const navigate = useNavigate();
   const { isAuthenticated, userProfile } = useAuth();
 
@@ -18,6 +20,11 @@ export default function ProductDetails() {
         if (response.ok) {
           const data = await response.json();
           setProductDetails(data);
+
+          // Check if this product is in the user's favourite list
+          if (userProfile?.favourites?.includes(id)) {
+            setIsFavourite(true);
+          }
         }
       } catch (error) {
         console.log("Error fetching product details: " + error);
@@ -25,7 +32,7 @@ export default function ProductDetails() {
     };
 
     fetchDetails();
-  }, [id]);
+  }, [id, userProfile]);
 
   // Handle Purchase
   const Purchase = async () => {
@@ -36,7 +43,6 @@ export default function ProductDetails() {
       if (response.ok) {
         setIsModalOpen(false);  // Close modal after successful purchase
         alert("Purchase successful!");  // Notify user
-        // You may want to update state or navigate elsewhere after the purchase
       } else {
         alert("There was an error with the purchase. Please try again.");
       }
@@ -46,9 +52,36 @@ export default function ProductDetails() {
     }
   }
 
+  const toggleFavourite = async (productId, userId) => {
+    try {
+      // Send request to toggle the favourite status (Add or Remove)
+      const response = await fetch(`http://localhost:5224/api/User/Favourite?productId=${productId}&userId=${userId}`, {
+        method: 'PUT', // Assuming PUT is used for toggling
+      });
+      if (response.ok) {
+        setIsFavourite(prev => !prev); // Toggle the local state for favorite status
+        alert(isFavourite ? "Removed from favourites" : "Added to favourites");
+      }
+    } catch (error) {
+      console.error('Error with toggling favourites:', error);
+    }
+  };
+
   return (
     <div className="product-details-container">
       <button onClick={() => navigate('/productlist')} className="add-to-cart-button">Go Back</button>
+
+      {/* Heart icon that toggles the favorite status */}
+      {isAuthenticated ? (
+        isFavourite ? (
+          <MdFavorite className="fav-icon" size={50} onClick={() => toggleFavourite(id, userProfile.id)} />
+        ) : (
+          <MdFavoriteBorder className="fav-icon" size={50} onClick={() => toggleFavourite(id, userProfile.id)} />
+        )
+      ) : (
+        <MdFavoriteBorder className="fav-icon" size={50} onClick={() => alert("Please login first")} />
+      )}
+
       <div className="product-details-wrapper">
         {productDetails ? (
           <div className="product-details">
@@ -64,7 +97,7 @@ export default function ProductDetails() {
             {/* Right: Product Info */}
             <div className="product-info-container">
               <h2 className="product-name">{productDetails.name}</h2>
-              
+
               {/* Description */}
               <div className="product-description">
                 {productDetails.description.split("\n").map((desc, index) => (
@@ -78,9 +111,11 @@ export default function ProductDetails() {
               </div>
 
               {/* Add to Cart Button */}
-              {isAuthenticated ? 
+              {isAuthenticated ? (
                 <button className="add-to-cart-button" onClick={() => setIsModalOpen(true)}>Get it now!</button>
-                : <button className="add-to-cart-button" onClick={() => navigate("/login")}>Login first</button>}
+              ) : (
+                <button className="add-to-cart-button" onClick={() => navigate("/login")}>Login first</button>
+              )}
             </div>
           </div>
         ) : (

@@ -1,4 +1,4 @@
-/* Global reset */
+/* General reset */
 * {
   margin: 0;
   padding: 0;
@@ -15,6 +15,7 @@ body {
 
 /* Container for the entire product details page */
 .product-details-container {
+  position: relative;
   max-width: 1200px;
   margin: 0 auto;
   padding: 40px;
@@ -104,34 +105,6 @@ body {
   font-weight: 600;
 }
 
-/* Mobile Responsiveness */
-@media (max-width: 768px) {
-  .product-details {
-    flex-direction: column;
-  }
-
-  .product-image {
-    max-width: 80%;
-    margin-bottom: 20px;
-  }
-
-  .product-info-container {
-    align-items: center;
-  }
-
-  .product-name {
-    font-size: 1.8rem;
-  }
-
-  .product-price {
-    font-size: 1.3rem;
-  }
-
-  .add-to-cart-button {
-    width: 100%;
-  }
-}
-
 /* Modal Background */
 .confirmation-modal {
   position: fixed;
@@ -184,3 +157,57 @@ body {
   background-color: #c0392b;
 }
 
+/* Heart Button */
+.heart-btn {
+  position: absolute;
+  top: 15px; /* Adjust position from the top */
+  right: 15px; /* Adjust position from the right */
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #333;
+  cursor: pointer;
+  z-index: 10;
+  transition: color 0.3s ease;
+}
+
+.product-card {
+  position: relative; /* Make sure the heart button is positioned relative to the card */
+}
+
+/* Heart Button on Hover */
+.heart-btn:hover {
+  color: #e74c3c; /* Red color on hover */
+}
+
+.heart-btn.favorited {
+  color: #e74c3c; /* Red color when favorited */
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .product-details {
+    flex-direction: column;
+  }
+
+  .product-image {
+    max-width: 80%;
+    margin-bottom: 20px;
+  }
+
+  .product-info-container {
+    align-items: center;
+  }
+
+  .product-name {
+    font-size: 1.8rem;
+  }
+
+  .product-price {
+    font-size: 1.3rem;
+  }
+
+  .add-to-cart-button {
+    width: 100%;
+  }
+}
