@@ -11,6 +11,7 @@ namespace Backend.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Receipt> Receipts {get; set;}
         public DbSet<ReceiptProduct> ReceiptProducts {get; set;}
+        public DbSet<PurchaseHistory> PurchaseHistory {get; set;}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

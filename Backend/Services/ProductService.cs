@@ -21,11 +21,13 @@ namespace Backend.Services
     {
         private readonly IProductRepository _repo;
         private readonly IMapper _mapper;
+        private readonly IPurchaseHistoryRepository _repoHistory;
 
-        public ProductService(IProductRepository repo, IMapper mapper)
+        public ProductService(IProductRepository repo, IMapper mapper, IPurchaseHistoryRepository repoHistory)
         {
             _repo = repo;
             _mapper = mapper;
+            _repoHistory = repoHistory;
         }
 
         public async Task<IEnumerable<ProductDto>> GetAllAsync()
@@ -98,18 +100,36 @@ namespace Backend.Services
         public async Task<ProductDto> UpdateOwner(Guid id, Guid productId)
         {
             var existingProduct = await _repo.GetByIdAsync(productId);
-            if (existingProduct == null) 
+            if (existingProduct == null)
                 throw new KeyNotFoundException($"Product with ID {productId} not found.");
-            
-            if(existingProduct.UserId != id){
-            existingProduct.UserId = id; 
-            }
-            else {throw new InvalidOperationException("The product already belongs to the specified user.");}
-            
-            await _repo.Update(existingProduct);
 
-            return _mapper.Map<ProductDto>(existingProduct); 
+            var previousOwner = existingProduct.UserId;
+
+            // Only update if the new owner is different
+            if (existingProduct.UserId != id)
+            {
+                existingProduct.UserId = id;
+                await _repo.Update(existingProduct);
+
+                // Create record of sale
+                try
+                {
+                    await _repoHistory.Create(previousOwner, existingProduct.UserId, productId);
+                }
+                catch (Exception ex)
+                {
+                    // Optionally, log the error here
+                    throw new InvalidOperationException("Error recording purchase history.", ex);
+                }
+
+                return _mapper.Map<ProductDto>(existingProduct);
+            }
+            else
+            {
+                throw new InvalidOperationException("The product already belongs to the specified user.");
+            }
         }
+
 
     }
 }
