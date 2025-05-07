@@ -1,11 +1,14 @@
 using Backend.Data;
 using Backend.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Repositories
 {
     public interface IPurchaseHistoryRepository
     {
         Task Create(Guid previousOwner, Guid newOwner, Guid productId);
+        Task<List<PurchaseHistory>> GetAllAsync();
+        Task<List<PurchaseHistory>> GetByIdAsync(Guid id);
     }
 
     public class PurchaseHistoryRepository : IPurchaseHistoryRepository
@@ -32,6 +35,25 @@ namespace Backend.Repositories
                 await _context.SaveChangesAsync();
             }
             catch{
+                throw;
+            }
+        }
+
+        public async Task<List<PurchaseHistory>> GetAllAsync()
+        {
+            try {
+                return await _context.PurchaseHistory.ToListAsync();
+            }
+            catch {
+                throw;
+            }
+        }
+        public async Task<List<PurchaseHistory>> GetByIdAsync(Guid id)
+        {
+            try {
+                return await _context.PurchaseHistory.Where(p => p.NewOwner == id || p.PreviousOwner == id).ToListAsync();
+            }
+            catch {
                 throw;
             }
         }

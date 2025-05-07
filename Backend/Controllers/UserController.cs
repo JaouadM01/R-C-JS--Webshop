@@ -95,7 +95,7 @@ namespace Backend.Controllers
             }
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet("{id:guid}")]
         public async Task<ActionResult> GetById(Guid id)
         {

@@ -93,8 +93,8 @@ namespace Backend.Controllers
                 return StatusCode(500, "An error occurred while retrieving the product");
             }
         }
-        [Authorize]
-        [HttpGet("GetProductList{id:guid}")]
+        //[Authorize]
+        [HttpGet("GetProductList")]
         public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductListById(Guid id)
         {
             try {

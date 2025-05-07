@@ -42,6 +42,10 @@ builder.Services.AddScoped<IReceiptRepository, ReceiptRepository>();
 builder.Services.AddScoped<ReceiptService>();
 
 builder.Services.AddScoped<IPurchaseHistoryRepository, PurchaseHistoryRepository>();
+builder.Services.AddScoped<IPurchaseHistoryService, PurchaseHistoryService>();
+builder.Services.AddScoped<PurchaseHistoryService>();
+
+
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
