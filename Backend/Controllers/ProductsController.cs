@@ -151,7 +151,7 @@ namespace Backend.Controllers
                     return BadRequest("Product not found or you do not have permission to modify this product.");
                 }
 
-                return Ok("Product status updated successfully.");
+                return Ok(new {status = result.Status});
             }
             catch (Exception ex)
             {

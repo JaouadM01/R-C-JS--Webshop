@@ -16,7 +16,7 @@ namespace Backend.Services
         Task<IEnumerable<ProductDto>> GetProductListById(Guid id);
         Task<ProductDto> UpdateOwner(Guid id, Guid productId);
         Task<IEnumerable<ProductDto>> GetAllListedAsync();
-        Task<string> ListProduct(Guid id, Guid userId);
+        Task<ProductDto> ListProduct(Guid id, Guid userId);
     }
 
     public class ProductService : IProductService
@@ -144,7 +144,7 @@ namespace Backend.Services
             }
         }
 
-        public async Task<string> ListProduct(Guid id, Guid userId)
+        public async Task<ProductDto> ListProduct(Guid id, Guid userId)
         {
             // Retrieve the product by ID
             var existingProduct = await _repo.GetByIdAsync(id);
@@ -172,7 +172,7 @@ namespace Backend.Services
             // Update the product status in the repository
             await _repo.Update(existingProduct);
 
-            return "Product status updated successfully";  // Return success message
+            return _mapper.Map<ProductDto>(existingProduct);  // Return success message
         }
 
 

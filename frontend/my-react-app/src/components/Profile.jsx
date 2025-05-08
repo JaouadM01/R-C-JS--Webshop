@@ -88,6 +88,27 @@ function Profile() {
         }
     };
 
+    const toggleProductStatus = async (productId, userId) => {
+        try {
+            const response = await fetch(`http://localhost:5224/api/Products/listproduct?id=${productId}&userId=${userId}`, {
+                method: 'PUT', // Assuming PUT is used for toggling
+            });
+
+            if (response.ok) {
+                const updatedProduct = await response.json();
+                setOwnedProducts((prevProducts) =>
+                    prevProducts.map((product) =>
+                        product.id === productId ? { ...product, status: updatedProduct.status } : product
+                    )
+                );
+            } else {
+                console.error('Failed to toggle product status');
+            }
+        } catch (error) {
+            console.error('Error with toggling product status:', error);
+        }
+    }
+
     useEffect(() => {
         const getMyProducts = async () => {
             try {
@@ -178,7 +199,9 @@ function Profile() {
                                     <p key={index}>{line}</p>
                                 ))}
                                 <p><span className="label">Type:</span> {prd.type}</p>
+                                <p><span className='label'>Status:</span> {prd.status == 0 ? "Owned" : "Listed"}</p>
                                 <p><span className="history-item-price">Price:</span> {prd.price ? `${prd.price.toFixed(2)} Satoshi` : "Price not available"}</p>
+                                <button onClick={() => toggleProductStatus(prd.id, userProfile.id)}>{prd.status == 0 ? "Enlist" : "Remove from listing"}</button>
                             </div>
                         ))}
                     </div>
