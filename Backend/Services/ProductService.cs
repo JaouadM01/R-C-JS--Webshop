@@ -16,6 +16,7 @@ namespace Backend.Services
         Task<IEnumerable<ProductDto>> GetProductListById(Guid id);
         Task<ProductDto> UpdateOwner(Guid id, Guid productId);
         Task<IEnumerable<ProductDto>> GetAllListedAsync();
+        Task<string> ListProduct(Guid id, Guid userId);
     }
 
     public class ProductService : IProductService
@@ -142,6 +143,38 @@ namespace Backend.Services
                 throw new InvalidOperationException("The product already belongs to the specified user.");
             }
         }
+
+        public async Task<string> ListProduct(Guid id, Guid userId)
+        {
+            // Retrieve the product by ID
+            var existingProduct = await _repo.GetByIdAsync(id);
+            if (existingProduct == null)
+            {
+                return null;  // Return null if the product doesn't exist
+            }
+
+            // Ensure the user is the owner of the product
+            if (existingProduct.UserId != userId)
+            {
+                throw new UnauthorizedAccessException("You are not authorized to modify this product.");
+            }
+
+            // Toggle the product's status between "Owned" and "Listed"
+            if (existingProduct.Status == Status.Owned)
+            {
+                existingProduct.Status = Status.Listed;  // Change status to Listed
+            }
+            else if (existingProduct.Status == Status.Listed)
+            {
+                existingProduct.Status = Status.Owned;  // Change status back to Owned
+            }
+
+            // Update the product status in the repository
+            await _repo.Update(existingProduct);
+
+            return "Product status updated successfully";  // Return success message
+        }
+
 
 
     }

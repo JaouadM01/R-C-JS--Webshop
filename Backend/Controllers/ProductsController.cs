@@ -87,18 +87,21 @@ namespace Backend.Controllers
                 return StatusCode(500, "An error occurred while deleting the product.");
             }
         }
-        
+
         [HttpGet("{id:guid}")]
         public async Task<ActionResult<ProductDto>> GetById(Guid id)
         {
-            try {
+            try
+            {
                 var product = await _service.GetById(id);
-                if(product == null){
+                if (product == null)
+                {
                     return NotFound($"Product with ID: {id} not found");
                 }
                 else return Ok(product);
             }
-            catch(Exception ex){
+            catch (Exception ex)
+            {
                 Console.WriteLine($"Failed to retrieve the product: {ex}");
                 return StatusCode(500, "An error occurred while retrieving the product");
             }
@@ -107,12 +110,13 @@ namespace Backend.Controllers
         [HttpGet("GetProductList")]
         public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductListById(Guid id)
         {
-            try {
+            try
+            {
                 var products = await _service.GetProductListById(id);
-                if(products == null) return NotFound();
+                if (products == null) return NotFound();
                 return Ok(products);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(500, $"An error occured while retrieving the product list: {ex.Message}");
             }
@@ -121,15 +125,40 @@ namespace Backend.Controllers
         [HttpPut("updateOwner")]
         public async Task<ActionResult> UpdateOwner(Guid id, Guid productId)
         {
-            try {
+            try
+            {
                 var updatedProduct = await _service.UpdateOwner(id, productId);
-                if(updatedProduct != null)return Ok();
+                if (updatedProduct != null) return Ok();
                 return BadRequest();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(500, $"An error occured while retrieving the product list: {ex.Message}");
             }
         }
+
+        [HttpPut("listproduct")]
+        public async Task<ActionResult> ListProduct(Guid id, Guid userId)
+        {
+            try
+            {
+                // Call the service method to handle the status toggle
+                var result = await _service.ListProduct(id, userId);
+
+                if (result == null)
+                {
+                    // If the result is null, it means the product was not found or the user isn't the owner
+                    return BadRequest("Product not found or you do not have permission to modify this product.");
+                }
+
+                return Ok("Product status updated successfully.");
+            }
+            catch (Exception ex)
+            {
+                // Log the exception and return a server error
+                return StatusCode(500, $"An error occurred while processing your request: {ex.Message}");
+            }
+        }
+
     }
 }
