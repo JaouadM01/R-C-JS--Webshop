@@ -15,6 +15,7 @@ namespace Backend.Services
         Task<ProductDto?> GetById(Guid id);
         Task<IEnumerable<ProductDto>> GetProductListById(Guid id);
         Task<ProductDto> UpdateOwner(Guid id, Guid productId);
+        Task<IEnumerable<ProductDto>> GetAllListedAsync();
     }
 
     public class ProductService : IProductService
@@ -33,6 +34,17 @@ namespace Backend.Services
         public async Task<IEnumerable<ProductDto>> GetAllAsync()
         {
             var products = await _repo.GetAllAsync();
+            var productDtos = products.Select(product =>
+        {
+            var productDto = _mapper.Map<ProductDto>(product);
+            productDto.Type = product.Type.ToString(); // Convert enum to string
+            return productDto;
+        });
+            return productDtos;
+        }
+        public async Task<IEnumerable<ProductDto>> GetAllListedAsync()
+        {
+            var products = await _repo.GetAllListedAsync();
             var productDtos = products.Select(product =>
         {
             var productDto = _mapper.Map<ProductDto>(product);
@@ -109,6 +121,7 @@ namespace Backend.Services
             if (existingProduct.UserId != id)
             {
                 existingProduct.UserId = id;
+                existingProduct.Status = Status.Owned;
                 await _repo.Update(existingProduct);
 
                 // Create record of sale

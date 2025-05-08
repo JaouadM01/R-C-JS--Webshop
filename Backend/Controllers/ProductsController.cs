@@ -27,7 +27,17 @@ namespace Backend.Controllers
             }
             return Ok(products);
         }
-        [Authorize]
+        [HttpGet("listed")]
+        public async Task<ActionResult<IEnumerable<ProductDto>>> GetAllListed()
+        {
+            var products = await _service.GetAllListedAsync();
+            if (products == null || !products.Any())
+            {
+                return NoContent();
+            }
+            return Ok(products);
+        }
+        //[Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(ProductDto productDto, Guid userId)
         {

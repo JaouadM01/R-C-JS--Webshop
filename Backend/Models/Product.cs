@@ -12,6 +12,7 @@ namespace Backend.Models
         public User? User{get; set;}
         // link to the image on IPFS Pinata
         public string? Image{get; set;}
+        public Status Status {get; set;}
     }
     public enum Types {
         Electronics,
@@ -24,5 +25,10 @@ namespace Backend.Models
         SportsEquipment,
         BeautyProducts,
         Automotive
+    }
+
+    public enum Status {
+        Owned,
+        Listed
     }
 }

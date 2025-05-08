@@ -8,5 +8,6 @@ namespace Backend.Dtos {
         public required string Description { get; set; }
         public required decimal Price { get; set; }
         public string? Image{get; set;}
+        public Status Status {get; set;}
     }
 }

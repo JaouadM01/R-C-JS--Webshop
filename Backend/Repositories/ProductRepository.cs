@@ -12,6 +12,7 @@ namespace Backend.Repositories
         Task<Product?> GetByIdAsync(Guid id);
         Task Delete(Product product);
         Task<IEnumerable<Product>> GetProductListById(Guid id);
+        Task<IEnumerable<Product>> GetAllListedAsync();
     }
 
     public class ProductRepository : IProductRepository
@@ -26,6 +27,10 @@ namespace Backend.Repositories
         public async Task<IEnumerable<Product>> GetAllAsync()
         {
             return await _context.Products.ToListAsync();
+        }
+        public async Task<IEnumerable<Product>> GetAllListedAsync()
+        {
+            return await _context.Products.Where(p => p.Status == Status.Listed).ToListAsync();
         }
 
         public async Task Create(Product product)

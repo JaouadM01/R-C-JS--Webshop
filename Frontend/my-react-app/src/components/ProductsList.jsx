@@ -14,7 +14,7 @@ const ProductsList = () => {
   useEffect(() => {
     const getProducts = async () => {
       try {
-        const response = await fetch(`http://localhost:5224/api/Products`);
+        const response = await fetch(`http://localhost:5224/api/Products/listed`);
         if (response.ok) {
           const data = await response.json();
           setProducts(data);
