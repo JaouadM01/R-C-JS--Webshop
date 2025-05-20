@@ -1,4 +1,4 @@
-/* Base Reset */
+/* Reset and Base */
 * {
     margin: 0;
     padding: 0;
@@ -6,50 +6,44 @@
   }
   
   body {
-    background: linear-gradient(to right, #f0f4f8, #dce6ef);
+    background: linear-gradient(to right, #f6f8fb, #e9eff5);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #2c3e50;
   }
   
-  /* Login Container */
-  .login-container {
-    max-width: 420px;
-    margin: 80px auto;
+  /* Container */
+  .register-container {
+    max-width: 450px;
+    margin: 60px auto;
     padding: 40px 35px;
     background-color: #ffffff;
     border-radius: 20px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
     transition: all 0.3s ease-in-out;
-    animation: fadeInUp 0.6s ease-in-out;
   }
   
-  .login-container:hover {
+  .register-container:hover {
     transform: translateY(-3px);
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
   }
   
-  .login-container h2 {
+  .register-container h2 {
     font-size: 1.75rem;
     text-align: center;
     margin-bottom: 25px;
     color: #34495e;
   }
   
-  /* Form */
-  .login-container form {
+  /* Form Layout */
+  .register-form {
     display: flex;
     flex-direction: column;
     gap: 18px;
   }
   
-  .login-container label {
-    font-weight: 600;
-    margin-bottom: 6px;
-    display: block;
-    color: #333;
-  }
-  
-  .login-container input {
+  /* Input Fields */
+  .register-form input,
+  .register-form select {
     padding: 12px 16px;
     font-size: 1rem;
     border: 1px solid #dce3ec;
@@ -58,14 +52,15 @@
     transition: border 0.3s ease, background 0.3s ease;
   }
   
-  .login-container input:focus {
+  .register-form input:focus,
+  .register-form select:focus {
     outline: none;
     border-color: #4a90e2;
     background-color: #fff;
   }
   
-  /* Button styles */
-  .login-container button {
+  /* Submit Button */
+  .register-form button {
     padding: 14px;
     background-color: #4a90e2;
     color: #fff;
@@ -75,46 +70,20 @@
     border-radius: 12px;
     cursor: pointer;
     transition: background 0.3s ease, transform 0.2s ease;
-    width: 100%;
   }
   
-  .login-container button:hover {
+  .register-form button:hover {
     background-color: #357ab8;
     transform: translateY(-1px);
   }
   
-  /* Register button */
-  .login-container > div > button {
-    margin-top: 15px;
-    background-color: #e0e7ef;
-    color: #2c3e50;
-    transition: background 0.3s ease;
-  }
-  
-  .login-container > div > button:hover {
-    background-color: #d2dbe4;
-  }
-  
-  /* Error message */
-  .error-message {
-    margin-top: 20px;
-    background-color: #ffeae9;
+  /* Error Message */
+  .error-msg {
     color: #e74c3c;
+    background-color: #ffeae9;
     padding: 10px 12px;
     border-radius: 8px;
     font-size: 0.95rem;
     text-align: center;
-  }
-  
-  /* Animation */
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
   }
   

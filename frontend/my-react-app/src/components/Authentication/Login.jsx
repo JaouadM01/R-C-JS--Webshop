@@ -80,6 +80,19 @@ function Login() {
         <button type="submit">Login</button>
       </form>
 
+      <div>
+        <button
+          onClick={() => {
+            try {
+              navigate("/register");
+            } catch (error) {
+              console.error("Navigation error:", error);
+              setError("Failed to navigate to the register page.");
+            }
+          }}
+        >Register</button>
+      </div>
+
       {error && <div className="error-message" style={{ color: 'red' }}>{error}</div>}
     </div>
   );

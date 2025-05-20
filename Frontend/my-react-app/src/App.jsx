@@ -8,6 +8,8 @@ import CommunityPage from './components/CommunityPage';
 import ProductDetails from './components/ProductDetails';
 import Profile from './components/Profile';
 import Login from './components/Authentication/Login';
+import Register from './components/Authentication/Register';
+import ProductCreationForm from './components/ProductCreationForm';
 import { AuthProvider } from './components/context/AuthProvider';
 
 function App() {
@@ -22,6 +24,8 @@ function App() {
             <Route path="/productdetails/:id" element={<ProductDetails />} />
             <Route path='/profile' element={<Profile />} />
             <Route path='/login' element={<Login />} />
+            <Route path='/register' element={<Register />} />
+            <Route path='/createproduct' element={<ProductCreationForm />} />
           </Route>
         </Routes>
       </Router>

@@ -46,6 +46,9 @@ const ProductsList = () => {
     <div className="productcollection-list-container">
       <h2>Products</h2>
 
+      <button
+        onClick={() => navigate("/createproduct")}
+      >Add new product</button>
       <div className="product-grid">
         {products.map((product) => (
           <div key={product.id} className="product-card">
