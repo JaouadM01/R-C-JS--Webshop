@@ -9,5 +9,8 @@
   .page-content {
     flex: 1; /* Zorgt dat deze div de beschikbare ruimte opvult */
     padding: 20px; /* optioneel, afhankelijk van je design */
+    width: 100%;
+    max-width: 100%;
   }
+ 
   

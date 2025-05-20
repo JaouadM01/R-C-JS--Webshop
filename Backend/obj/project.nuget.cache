@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "E8eUzEZHtdJM+TBt/EoguQkGz6Ibu1Njlw9IwXpUXAx227AGUidCZKoW1hTygthUKUJPeh6RYReZ3CmEw8EWpg==",
+  "dgSpecHash": "dBYZKIGoPvov4NdSmdqiJJ6p2KhI56oEa/L5b8sT3aCgp2jWjOWfZ6q7OTXkLr947sD+2KTM+tUt3wKQHX/Skw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Jaoua\\OneDrive\\Documenten\\GitHub\\R-C-JS--Webshop\\backend\\Backend.csproj",
+  "projectFilePath": "C:\\Users\\Jaoua\\OneDrive\\Documenten\\GitHub\\R-C-JS--Webshop\\Backend\\Backend.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Jaoua\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\Jaoua\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

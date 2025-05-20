@@ -43,8 +43,8 @@ const ProductsList = () => {
   };
 
   return (
-    <div className="product-list-container">
-      <h2 className="sr-only">Products</h2>
+    <div className="productcollection-list-container">
+      <h2>Products</h2>
 
       <div className="product-grid">
         {products.map((product) => (
