@@ -16,12 +16,7 @@ export default function Header() {
       <nav className="navbar">
         <div className="title-image">
           <Link to="/"> {/* Use Link for routing in SPA */}
-            <h3 className="project-name">Project Name</h3>
-            <img
-              alt="Project"
-              src="path/to/your/image.jpg"
-              className="project-image"
-            />
+            <h3 className="project-name">ByteHeads</h3>
           </Link>
         </div>
         <ul className="navigation-list">
