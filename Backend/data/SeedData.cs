@@ -48,7 +48,8 @@ namespace Backend.Data
                     Price = 1000000.00M,
                     UserId = productSeller.Id,
                     Image = "https://brown-abstract-panther-296.mypinata.cloud/ipfs/bafybeibm4jj5hk3canec3emrg2xjw5zgjfafcmozj3az2q5csf73ik3s6e",
-                    Status = Status.Listed
+                    Status = Status.Listed,
+                    Rarity = Rarity.Rare
                 },
                 new Product
                 {
@@ -58,7 +59,8 @@ namespace Backend.Data
                     Price = 1000000.00M,
                     UserId = productSeller.Id,
                     Image = "https://brown-abstract-panther-296.mypinata.cloud/ipfs/bafybeie67vgsd375aksuph6yfesgsi5e4tujrylhp2zrw7c2synqmypqsi",
-                    Status = Status.Listed
+                    Status = Status.Listed,
+                    Rarity = Rarity.Rare
                 },
                 new Product
                 {
@@ -68,7 +70,8 @@ namespace Backend.Data
                     Price = 1000000.00M,
                     UserId = productSeller.Id,
                     Image = "https://brown-abstract-panther-296.mypinata.cloud/ipfs/bafybeichk4uha4tdf2qr5reawyub4cw4rh6lt7y6bvczcuaxfaarehwhme",
-                    Status = Status.Listed
+                    Status = Status.Listed,
+                    Rarity = Rarity.Rare
                 },
                 new Product
                 {
@@ -78,7 +81,8 @@ namespace Backend.Data
                     Price = 1000000.00M,
                     UserId = productSeller.Id,
                     Image = "https://brown-abstract-panther-296.mypinata.cloud/ipfs/bafybeia7bvxolv7zufw3i4bytdotdpe7j62ecaqvkq4swb4imelpf4tftu",
-                    Status = Status.Listed
+                    Status = Status.Listed,
+                    Rarity = Rarity.Rare
                 },
                 new Product
                 {
@@ -88,7 +92,8 @@ namespace Backend.Data
                     Price = 1000000.00M,
                     UserId = productSeller.Id,
                     Image = "https://brown-abstract-panther-296.mypinata.cloud/ipfs/bafybeidimhb537vlqcymy2os6jy6oakmni35oeo4oruwrd35p53dnbotre",
-                    Status = Status.Listed
+                    Status = Status.Listed,
+                    Rarity = Rarity.Rare
                 },
                 new Product
                 {
@@ -98,7 +103,8 @@ namespace Backend.Data
                     Price = 100000.00M,
                     UserId = productSeller.Id,
                     Image = "https://brown-abstract-panther-296.mypinata.cloud/ipfs/bafybeib3phxgw7o3gnaqtl2a6lc56asum6nznju7xi4jdfy6y53yx75kme",
-                    Status = Status.Listed
+                    Status = Status.Listed,
+                    Rarity = Rarity.Uncommon
                 },
                 new Product
                 {
@@ -108,7 +114,8 @@ namespace Backend.Data
                     Price = 100000.00M,
                     UserId = productSeller.Id,
                     Image = "https://brown-abstract-panther-296.mypinata.cloud/ipfs/bafybeibomfxukplrwwr4nelt2t2waox7kl2e53jiac7b7pudinuevkfxve",
-                    Status = Status.Listed
+                    Status = Status.Listed,
+                    Rarity = Rarity.Uncommon
                 },
                 new Product
                 {
@@ -118,7 +125,8 @@ namespace Backend.Data
                     Price = 10000.00M,
                     UserId = productSeller.Id,
                     Image = "https://brown-abstract-panther-296.mypinata.cloud/ipfs/bafybeiayfxr2iibmizvuxcbplgrtbwbzj6hh5aezrus466nunq2ozfjiqq",
-                    Status = Status.Listed
+                    Status = Status.Listed,
+                    Rarity = Rarity.Common
                 },
                 new Product
                 {
@@ -128,7 +136,8 @@ namespace Backend.Data
                     Price = 10000.00M,
                     UserId = productSeller.Id,
                     Image = "https://brown-abstract-panther-296.mypinata.cloud/ipfs/bafkreicwuwv232y7oph6w6iqwolsm3iib56rescxanspbu2qro3342gfii",
-                    Status = Status.Listed
+                    Status = Status.Listed,
+                    Rarity = Rarity.Common
                 },
                 new Product
 {
@@ -138,7 +147,8 @@ namespace Backend.Data
     Price = 100000.00M,
     UserId = productSeller.Id,
     Image = "https://gateway.pinata.cloud/ipfs/bafkreiewtdy3c6ah7zm3kin5nw6c4d2durm7f23ep3tpnorfd4o4yqslee",
-    Status = Status.Listed
+    Status = Status.Listed,
+    Rarity = Rarity.Uncommon
 },
 new Product
 {
@@ -148,7 +158,8 @@ new Product
     Price = 100000.00M,
     UserId = productSeller.Id,
     Image = "https://gateway.pinata.cloud/ipfs/bafybeifnuw7shk67ugrli5mlrlkcsrp5qmtd6exfws7r5gaa5drxhebjwy",
-    Status = Status.Listed
+    Status = Status.Listed,
+    Rarity = Rarity.Uncommon
 },
 new Product
 {
@@ -158,7 +169,8 @@ new Product
     Price = 100000.00M,
     UserId = productSeller.Id,
     Image = "https://gateway.pinata.cloud/ipfs/bafkreigfwbxpxdanxzifhqe2sqco3gtknp6ddsmq3ly35l6pqm3no4qtci",
-    Status = Status.Listed
+    Status = Status.Listed,
+    Rarity = Rarity.Common
 },
 new Product
 {
@@ -168,7 +180,8 @@ new Product
     Price = 100000.00M,
     UserId = productSeller.Id,
     Image = "https://gateway.pinata.cloud/ipfs/bafkreibwxolggi2qgavpok73oujfuzvlpodubaumwm6npvnegtqqrzfgge",
-    Status = Status.Listed
+    Status = Status.Listed,
+    Rarity = Rarity.Common
 },
 new Product
 {
@@ -178,7 +191,8 @@ new Product
     Price = 100000.00M,
     UserId = productSeller.Id,
     Image = "https://gateway.pinata.cloud/ipfs/bafkreifr7fzp3kh4ygp6pnjaevtkztmmvwgqysyqcir54lklve3gwzf6be",
-    Status = Status.Listed
+    Status = Status.Listed,
+    Rarity = Rarity.Common
 },
 new Product
 {
@@ -188,7 +202,8 @@ new Product
     Price = 100000.00M,
     UserId = productSeller.Id,
     Image = "https://gateway.pinata.cloud/ipfs/bafybeibfecz2nee7pmhlc4ppmx3ptnjpeev6daedviwc5pyrcarvwqm7f4",
-    Status = Status.Listed
+    Status = Status.Listed,
+    Rarity = Rarity.Common
 },
 new Product
 {
@@ -198,7 +213,8 @@ new Product
     Price = 100000.00M,
     UserId = productSeller.Id,
     Image = "https://gateway.pinata.cloud/ipfs/bafybeidwe6jmgpda3wrhia6tjtufksu4pqln6s5oov2ydscnqe3cwbpgni",
-    Status = Status.Listed
+    Status = Status.Listed,
+    Rarity = Rarity.Common
 },
 new Product
 {
@@ -208,7 +224,8 @@ new Product
     Price = 100000.00M,
     UserId = productSeller.Id,
     Image = "https://gateway.pinata.cloud/ipfs/bafybeidmhtx4t4tf4coykdqvzhefv7plxemi5f2sj4eylilzpsu2eod5cm",
-    Status = Status.Listed
+    Status = Status.Listed,
+    Rarity = Rarity.Common
 }
 
 

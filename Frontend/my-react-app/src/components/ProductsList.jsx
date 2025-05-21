@@ -11,10 +11,20 @@ const ProductsList = () => {
   const [products, setProducts] = useState([]);
   const { isAuthenticated, userProfile } = useAuth();
 
+  const [sortOption, setSortOption] = useState("default");
+
+  const sortedProducts = [...products].sort((a, b) => {
+    if (sortOption === "priceAsc") return a.price - b.price;
+    if (sortOption === "priceDesc") return b.price - a.price;
+    if (sortOption === "rarity") return a.rarity - b.rarity; // assuming rarity: 0 = Rare, 1 = Uncommon, 2 = Common
+    return 0; // default order
+  });  
+
+
   const RarityTypes = {
-    0 : "Rare",
-    1 : "Uncommon",
-    2 : "Common"
+    0: "Rare",
+    1: "Uncommon",
+    2: "Common"
   }
 
   useEffect(() => {
@@ -51,16 +61,24 @@ const ProductsList = () => {
   return (
     <div className="productcollection-list-container">
       <h2>Products</h2>
+      <div>
+        <button
+          className="add-product-button"
+          onClick={() => navigate("/createproduct")}
+        >
+          + Add New Product
+        </button>
 
-      <button
-        className="add-product-button"
-        onClick={() => navigate("/createproduct")}
-      >
-        + Add New Product
-      </button>
+        <select value={sortOption} onChange={(e) => setSortOption(e.target.value)} className="sort-dropdown">
+          <option value="default">Sort by: Default</option>
+          <option value="priceAsc">Price ↑</option>
+          <option value="priceDesc">Price ↓</option>
+          <option value="rarity">Rarity</option>
+        </select>
 
+      </div>
       <div className="product-grid">
-        {products.map((product) => (
+        {sortedProducts.map((product) => (
           <div key={product.id} className="product-card">
             {isAuthenticated ? <MdFavorite className="fav-icon" size={50} onClick={() => toggleFavourite(product.id, userProfile.id)} /> : <MdFavorite className="fav-icon" size={50} onClick={() => alert("Please login first")} />}
             <img

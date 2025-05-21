@@ -131,4 +131,20 @@ body {
   transform: scale(0.98);
   background-color: #2c5d99;
 }
+.sort-dropdown {
+  padding: 10px 16px;
+  font-size: 1rem;
+  border: 1px solid #dce3ec;
+  border-radius: 10px;
+  background-color: #f9fbfd;
+  margin-left: 20px;
+  cursor: pointer;
+  transition: border 0.3s ease, background 0.3s ease;
+}
+
+.sort-dropdown:focus {
+  outline: none;
+  border-color: #4a90e2;
+  background-color: #ffffff;
+}
 
