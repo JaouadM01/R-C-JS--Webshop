@@ -13,6 +13,7 @@ namespace Backend.Models
         // link to the image on IPFS Pinata
         public string? Image{get; set;}
         public Status Status {get; set;}
+        public Rarity Rarity{get; set;}
     }
     public enum Types {
         Electronics,
@@ -30,5 +31,11 @@ namespace Backend.Models
     public enum Status {
         Owned,
         Listed
+    }
+
+    public enum Rarity {
+        Rare,
+        Uncommon,
+        Common
     }
 }

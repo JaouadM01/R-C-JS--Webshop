@@ -12,6 +12,12 @@ export default function ProductDetails() {
   const navigate = useNavigate();
   const { isAuthenticated, userProfile } = useAuth();
 
+  const RarityTypes = {
+    0 : "Rare",
+    1 : "Uncommon",
+    2 : "Common"
+  }
+
   // Fetch the product details based on the ID in the URL
   useEffect(() => {
     const fetchDetails = async () => {
@@ -97,6 +103,7 @@ export default function ProductDetails() {
             {/* Right: Product Info */}
             <div className="product-info-container">
               <h2 className="product-name">{productDetails.name}</h2>
+              <h4 className="product-name">{RarityTypes[productDetails.rarity]}</h4>
 
               {/* Description */}
               <div className="product-description">

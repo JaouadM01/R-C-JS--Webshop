@@ -73,7 +73,8 @@ namespace Backend.Services
                 ? "https://brown-abstract-panther-296.mypinata.cloud/ipfs/bafkreiaplp3byr2xhkempkdhpjqxuedl5ez5anygqs6lfzoaqcdgg5rauu"
                 : productDto.Image,
                 Status = productDto.Status,
-                UserId = userId
+                UserId = userId,
+                Rarity = productDto.Rarity
             };
 
             await _repo.Create(product);

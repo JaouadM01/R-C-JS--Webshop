@@ -9,5 +9,6 @@ namespace Backend.Dtos {
         public required decimal Price { get; set; }
         public string? Image{get; set;}
         public Status Status {get; set;}
+        public Rarity Rarity {get; set;}
     }
 }

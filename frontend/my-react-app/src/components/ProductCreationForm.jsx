@@ -13,7 +13,8 @@ export default function ProductCreationForm() {
         Description: '',
         Price: 0,
         Image: '',
-        Status: 0
+        Status: 0,
+        Rarity: 0,
     });
 
     const [error, setError] = useState('');
@@ -96,6 +97,12 @@ export default function ProductCreationForm() {
                 <select name="Status" value={form.Status} onChange={(e) => setForm(prev => ({ ...prev, Status: Number(e.target.value) }))}>
                     <option value={1}>Listed</option>
                     <option value={0}>Owned</option>
+                </select>
+
+                <select name="Rarity" value={form.Rarity} onChange={(e) => setForm(prev => ({ ...prev, Rarity: Number(e.target.value) }))}>
+                    <option value={0}>Rare</option>
+                    <option value={1}>Uncommon</option>
+                    <option value={2}>Common</option>
                 </select>
 
                 <button type="submit">Create Product</button>

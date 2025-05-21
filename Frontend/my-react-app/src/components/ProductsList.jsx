@@ -11,6 +11,12 @@ const ProductsList = () => {
   const [products, setProducts] = useState([]);
   const { isAuthenticated, userProfile } = useAuth();
 
+  const RarityTypes = {
+    0 : "Rare",
+    1 : "Uncommon",
+    2 : "Common"
+  }
+
   useEffect(() => {
     const getProducts = async () => {
       try {
@@ -52,7 +58,7 @@ const ProductsList = () => {
       >
         + Add New Product
       </button>
-      
+
       <div className="product-grid">
         {products.map((product) => (
           <div key={product.id} className="product-card">
@@ -64,6 +70,7 @@ const ProductsList = () => {
               className="product-image"
             />
             <h3 className="product-name" onClick={() => navigate(`/productdetails/${product.id}`)}>{product.name || "Unnamed Product"}</h3>
+            <h4 className="product-name" onClick={() => navigate(`/productdetails/${product.id}`)}>{RarityTypes[product.rarity] || "Rarity Unkown"}</h4>
 
             {/* Check if description exists and display it */}
             <div className="product-description" onClick={() => navigate(`/productdetails/${product.id}`)}>
