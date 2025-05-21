@@ -47,12 +47,16 @@ const ProductsList = () => {
       <h2>Products</h2>
 
       <button
+        className="add-product-button"
         onClick={() => navigate("/createproduct")}
-      >Add new product</button>
+      >
+        + Add New Product
+      </button>
+      
       <div className="product-grid">
         {products.map((product) => (
           <div key={product.id} className="product-card">
-            {isAuthenticated ? <MdFavorite className="fav-icon" size={50} onClick={() => toggleFavourite(product.id, userProfile.id)}/> : <MdFavorite className="fav-icon" size={50} onClick={() => alert("Please login first")}/>}
+            {isAuthenticated ? <MdFavorite className="fav-icon" size={50} onClick={() => toggleFavourite(product.id, userProfile.id)} /> : <MdFavorite className="fav-icon" size={50} onClick={() => alert("Please login first")} />}
             <img
               onClick={() => navigate(`/productdetails/${product.id}`)}
               alt={product.name || "Product Image"}

@@ -57,8 +57,25 @@ namespace Backend.Services
 
         public async Task<Product> Create(ProductDto productDto, Guid userId)
         {
-            var product = _mapper.Map<Product>(productDto);
-            product.UserId = userId;
+            // Validate and map enum
+            if (!Enum.TryParse<Types>(productDto.Type, ignoreCase: true, out var parsedType))
+                throw new ArgumentException($"Invalid product type: {productDto.Type}");
+
+            // Construct Product manually
+            var product = new Product
+            {
+                Id = Guid.NewGuid(),
+                Name = productDto.Name,
+                Type = parsedType,
+                Description = productDto.Description,
+                Price = productDto.Price,
+                Image = string.IsNullOrWhiteSpace(productDto.Image)
+                ? "https://brown-abstract-panther-296.mypinata.cloud/ipfs/bafkreiaplp3byr2xhkempkdhpjqxuedl5ez5anygqs6lfzoaqcdgg5rauu"
+                : productDto.Image,
+                Status = productDto.Status,
+                UserId = userId
+            };
+
             await _repo.Create(product);
             return product;
         }

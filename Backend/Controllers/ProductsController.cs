@@ -39,7 +39,7 @@ namespace Backend.Controllers
         }
         //[Authorize(Roles = "ProductSeller,BackendEmployee")]
         [HttpPost("CreateProduct")]
-        public async Task<IActionResult> Create([FromBody]ProductDto productDto, Guid userId)
+        public async Task<IActionResult> Create([FromBody]ProductDto productDto, [FromQuery]Guid userId)
         {
             try
             {

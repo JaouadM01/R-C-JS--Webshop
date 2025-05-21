@@ -13,7 +13,7 @@ export default function ProductCreationForm() {
         Description: '',
         Price: 0,
         Image: '',
-        Status: 'Owned'
+        Status: 0
     });
 
     const [error, setError] = useState('');
@@ -28,17 +28,19 @@ export default function ProductCreationForm() {
         e.preventDefault();
         setError('');
         setSuccess('');
+        console.log(form);
 
         const defaultImage = "https://brown-abstract-panther-296.mypinata.cloud/ipfs/bafkreiaplp3byr2xhkempkdhpjqxuedl5ez5anygqs6lfzoaqcdgg5rauu";
 
         // Prepare the form data with fallback image
         const payload = {
             ...form,
+            Price: parseFloat(form.Price),
             Image: form.Image.trim() === '' ? defaultImage : form.Image
         };
 
         try {
-            const response = await fetch(`http://localhost:5224/api/Products/create?userId=${userProfile.id}`, {
+            const response = await fetch(`http://localhost:5224/api/Products/CreateProduct?userId=${userProfile.id}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
@@ -91,9 +93,9 @@ export default function ProductCreationForm() {
 
                 <input type="text" name="Image" placeholder="Image URL (optional)" value={form.Image} onChange={handleChange} />
 
-                <select name="Status" value={form.Status} onChange={handleChange}>
-                    <option value="Listed">Listed</option>
-                    <option value="Owned">Owned</option>
+                <select name="Status" value={form.Status} onChange={(e) => setForm(prev => ({ ...prev, Status: Number(e.target.value) }))}>
+                    <option value={1}>Listed</option>
+                    <option value={0}>Owned</option>
                 </select>
 
                 <button type="submit">Create Product</button>
